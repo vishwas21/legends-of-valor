@@ -1,5 +1,7 @@
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        ValorLayout vl = new ValorLayout(8);
+        vl.initLayout();
+        vl.displayLayout();
     }
 }
