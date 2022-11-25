@@ -10,7 +10,8 @@ public class Cell {
     private Integer unitPosition;
     private Integer unitPositionX;
     private Integer unitPositionY;
-    private Team team;
+    private LegendsHero hero;
+    private LegendsMonster monster;
 
 
     public Cell(Integer unitPosition, Integer unitPositionX, Integer unitPositionY) {
@@ -43,18 +44,37 @@ public class Cell {
         return this.unitPositionY;
     }
 
-    public void placeTeam(Team team) {
-        this.team = team;
+    public void placeHero(LegendsHero hero) {
+        this.hero = hero;
     }
 
-    public void removeTeam(){
-        this.team = null;
+    public void placeMonster(LegendsMonster monster) {
+        this.monster = monster;
     }
 
-    public Team getTeam() { return this.team; }
+    public void removeHero(){
+        this.hero = null;
+    }
 
-    public Boolean isTeamPresent() {
-        if (this.team == null) { return false; }
+    public void removeMonster(){
+        this.monster = null;
+    }
+
+    public LegendsHero getHero() { return this.hero; }
+
+    public LegendsMonster getMonster() { return this.monster; }
+
+    public Boolean isHeroPresent() {
+        if (this.hero == null) {
+            return false;
+        }
+        return true;
+    }
+
+    public Boolean isMonsterPresent() {
+        if (this.monster == null) {
+            return false;
+        }
         return true;
     }
 }
