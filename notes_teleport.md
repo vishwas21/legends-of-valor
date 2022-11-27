@@ -8,3 +8,5 @@ Teleport is a movement with constrains as below:
   - Not inaccessible
   - No other heroes (ValorLayout.getCell.isHeroPresent())
   - No crossing the monsters in the lane (iterate the upper cells of the lane to see if there are monsters)
+  - Jump to a particular hero.
+  - No Jumping to random location
