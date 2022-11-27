@@ -9,6 +9,7 @@
 import java.util.HashMap;
 
 public enum CellSpace {
+    DEFAULT,
     INACCESSIBLE,
     HERONEXUS,
     MONSTERNEXUS,

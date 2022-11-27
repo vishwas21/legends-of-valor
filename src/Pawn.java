@@ -10,17 +10,20 @@ public abstract class Pawn {
     private String type;
     private String color;
     private String name;
+    private String symbol;
 
     protected Pawn() { }
 
     protected Pawn(String name) {
         this.setName(name);
+        this.setSymbol("NA");
     }
 
     protected Pawn(String name, String color, String type) {
         this.setName(name);
         this.setColor(color);
         this.setType(type);
+        this.setSymbol("NA");
     }
 
     protected void init(String name) {
@@ -49,5 +52,13 @@ public abstract class Pawn {
 
     protected String getName() {
         return this.name;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
     }
 }

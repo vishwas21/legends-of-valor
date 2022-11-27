@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  * Team Class: This class is used to create a team of pawns which would be required for the game.
  *
@@ -8,7 +10,7 @@
 
 public class Team {
 
-    private Pawn[] pawnList;
+    private ArrayList<Pawn> pawnList;
     private Integer teamSize;
     private Integer positionX;
     private Integer positionY;
@@ -23,31 +25,34 @@ public class Team {
     }
 
     public Integer getTeamSize() {
-        return teamSize;
+        return this.teamSize;
     }
 
     public void setTeamSize(Integer teamSize) {
-        if (teamSize <= 0 ) {
-            teamSize = 1;
-        } else if (teamSize > 3) {
-            teamSize = 3;
-        }
         this.teamSize = teamSize;
     }
 
+    public void increaseTeamSize(Integer incrementSize) {
+        this.teamSize += incrementSize;
+    }
+
     public void initTeam() {
-        pawnList = new Pawn[this.getTeamSize()];
+        pawnList = new ArrayList<>();
     }
 
     public void setPawnAtIndex(Integer index, Pawn newTeamItem) {
-        this.pawnList[index] = newTeamItem;
+        this.pawnList.add(index, newTeamItem);
     }
 
     public Pawn getPawnAtIndex(Integer index) {
-        return this.pawnList[index];
+        return this.pawnList.get(index);
     }
 
-    public Pawn[] getPawnList() {
+    public void addPawn(Pawn newTeamItem) {
+        this.pawnList.add(newTeamItem);
+    }
+
+    public ArrayList<Pawn> getPawnList() {
         return pawnList;
     }
 
