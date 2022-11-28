@@ -11,6 +11,7 @@ public class ValorMonster extends ValorNPC {
         this.setBaseDamage(baseDamage);
         this.setDefense(defense);
         this.setDodge(dodge);
+        this.setType(String.valueOf(NPCType.MONSTER));
     }
 
     public void init(String name, Integer level, Integer maxHealthPoints, Integer baseDamage, Integer defense, Integer dodge) {

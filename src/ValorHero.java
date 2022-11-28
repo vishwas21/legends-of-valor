@@ -37,6 +37,7 @@ public class ValorHero extends ValorNPC {
         this.initItemInventory();
         this.setFaint(Boolean.FALSE);
         this.initItemsEquipped();
+        this.setType(String.valueOf(NPCType.HERO));
     }
 
     public void init(String name, Integer level, Integer maxHealthPoints, Integer experiencePoints, Integer maxMagicPoints, Integer strength, Integer dexterity, Integer agility, Integer gold) {

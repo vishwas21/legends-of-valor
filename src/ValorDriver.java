@@ -206,6 +206,69 @@ public class ValorDriver {
         ((ValorCell) vLayout.getCell(laneNumber, positionX, 1)).setDiscovered(true);
     }
 
+    private static List<Pawn> findTargetsInRange(Pawn pawn) {
+        List<Pawn> targetsInRange = new ArrayList<>();
+        // find the pawns that are different type and in range
+        if (pawn.getType().equals(String.valueOf(NPCType.HERO))) {
+            // For heroes, find monsters in range
+            ValorHero hero = (ValorHero) pawn;
+            int laneNumber = ((ValorCell) hero.getCurrentCell()).getLaneNumber();
+            int indexX = ((ValorCell) hero.getCurrentCell()).getLaneIndexX();
+            int indexY = ((ValorCell) hero.getCurrentCell()).getLaneIndexY();
+            // check the current cell
+            if (((ValorCell) hero.getCurrentCell()).isMonsterPresent()) {
+                targetsInRange.add(((ValorCell) hero.getCurrentCell()).getMonster());
+            }
+            // check the neighbor cell
+            if ((vLayout.getCell(laneNumber, indexX, (indexY + 1) % 2)) != null) {
+                if (((ValorCell) vLayout.getCell(laneNumber, indexX, (indexY + 1) % 2)).isMonsterPresent()) {
+                    targetsInRange.add(((ValorCell) vLayout.getCell(laneNumber, indexX, (indexY + 1) % 2)).getMonster());
+                }
+            }
+            // check the above cell
+            if ((vLayout.getCell(laneNumber, indexX - 1, indexY)) != null) {
+                if (((ValorCell) vLayout.getCell(laneNumber, indexX - 1, indexY)).isMonsterPresent()) {
+                    targetsInRange.add(((ValorCell) vLayout.getCell(laneNumber, indexX - 1, indexY)).getMonster());
+                }
+            }
+            // check the above neighbor cell
+            if ((vLayout.getCell(laneNumber, indexX - 1, (indexY + 1) % 2)) != null) {
+                if (((ValorCell) vLayout.getCell(laneNumber, indexX - 1, (indexY + 1) % 2)).isMonsterPresent()) {
+                    targetsInRange.add(((ValorCell) vLayout.getCell(laneNumber, indexX - 1, (indexY + 1) % 2)).getMonster());
+                }
+            }
+        } else {
+            // For monsters, find heroes in range
+            ValorMonster monster = (ValorMonster) pawn;
+            int laneNumber = ((ValorCell) monster.getCurrentCell()).getLaneNumber();
+            int indexX = ((ValorCell) monster.getCurrentCell()).getLaneIndexX();
+            int indexY = ((ValorCell) monster.getCurrentCell()).getLaneIndexY();
+            // check the current cell
+            if (((ValorCell) monster.getCurrentCell()).isHeroPresent()) {
+                targetsInRange.add(((ValorCell) monster.getCurrentCell()).getHero());
+            }
+            // check the neighbor cell
+            if ((vLayout.getCell(laneNumber, indexX, (indexY + 1) % 2)) != null) {
+                if (((ValorCell) vLayout.getCell(laneNumber, indexX, (indexY + 1) % 2)).isHeroPresent()) {
+                    targetsInRange.add(((ValorCell) vLayout.getCell(laneNumber, indexX, (indexY + 1) % 2)).getHero());
+                }
+            }
+            // check the below cell
+            if ((vLayout.getCell(laneNumber, indexX + 1, indexY)) != null) {
+                if (((ValorCell) vLayout.getCell(laneNumber, indexX + 1, indexY)).isHeroPresent()) {
+                    targetsInRange.add(((ValorCell) vLayout.getCell(laneNumber, indexX + 1, indexY)).getHero());
+                }
+            }
+            // check the below neighbor cell
+            if ((vLayout.getCell(laneNumber, indexX + 1, (indexY + 1) % 2)) != null) {
+                if (((ValorCell) vLayout.getCell(laneNumber, indexX + 1, (indexY + 1) % 2)).isHeroPresent()) {
+                    targetsInRange.add(((ValorCell) vLayout.getCell(laneNumber, indexX + 1, (indexY + 1) % 2)).getHero());
+                }
+            }
+        }
+        return targetsInRange;
+    }
+
     public static void playGame() throws Exception {
 
         do {
@@ -257,8 +320,11 @@ public class ValorDriver {
                 while (true) {
                     System.out.println("Round " + currentRound + " :");
                     String playedMove;
-                    // Each hero gets to play a move
+                    // Each not fainted hero gets to play a move
                     for (Pawn pawn : teamHero.getPawnList()) {
+                        if (((ValorHero) pawn).getDidFaint()) {
+                            continue;
+                        }
                         ValorHero hero = (ValorHero) pawn;
                         System.out.println("It is " + hero.getName() + "'s turn to play a move!");
                         vLayout.displayLayout();
@@ -286,7 +352,6 @@ public class ValorDriver {
                                 int newX = currentCell.getLaneIndexX();
                                 int newY = currentCell.getLaneIndexY();
                                 if (playedMove.equalsIgnoreCase("W") || playedMove.equalsIgnoreCase("S") || playedMove.equalsIgnoreCase("A") || playedMove.equalsIgnoreCase("D")) {
-                                    System.out.println("Move");
                                     if (playedMove.equalsIgnoreCase("W")) {
                                         newX--;
                                     } else if (playedMove.equalsIgnoreCase("S")) {
@@ -296,7 +361,6 @@ public class ValorDriver {
                                     } else if (playedMove.equalsIgnoreCase("D")) {
                                         newY++;
                                     }
-                                    System.out.println("New Position : " + newLane + " " + newX + " " + newY);
                                     if (checkValidMovement(newLane, newX, newY)) {
                                         setHeroPosition(hero, newLane, newX, newY);
                                         break;
@@ -326,6 +390,7 @@ public class ValorDriver {
                                         // set the hero in the new cell
                                         hero.setCurrentCell(vLayout.getCell(nexusCell.getLaneNumber(), nexusCell.getLaneIndexX(), (nexusCell.getLaneIndexY() + 1) % 2));
                                         ((ValorCell) vLayout.getCell(nexusCell.getLaneNumber(), nexusCell.getLaneIndexX(), (nexusCell.getLaneIndexY() + 1) % 2)).setHero(hero);
+                                        break;
                                     }
                                 } else if (playedMove.equalsIgnoreCase("T")) {
                                     // Teleport
@@ -351,18 +416,22 @@ public class ValorDriver {
                                         availableCells.add((ValorCell) vLayout.getCell(targetLane, targetX, (targetY + 1) % 2));
                                     }
                                     // Let the user choose the cell
-                                    System.out.println("Which cell would you like to teleport to?");
-                                    for (int i = 0; i < availableCells.size(); i++) {
-                                        System.out.println((i + 1) + " - Lane" + availableCells.get(i).getLaneNumber() + " X" + availableCells.get(i).getLaneIndexX() + " Y" + availableCells.get(i).getLaneIndexY());
-                                    }
-                                    System.out.print("Input: ");
-                                    int cellNumber = Integer.parseInt(Utils.input.readLine()) - 1;
-                                    if (cellNumber >= 0 && cellNumber < availableCells.size()) {
-                                        ValorCell newCell = availableCells.get(cellNumber);
-                                        setHeroPosition(hero, newCell.getLaneNumber(), newCell.getLaneIndexX(), newCell.getLaneIndexY());
-                                        break;
+                                    if (availableCells.size() > 0) {
+                                        System.out.println("Which cell would you like to teleport to?");
+                                        for (int i = 0; i < availableCells.size(); i++) {
+                                            System.out.println((i + 1) + " - Lane" + availableCells.get(i).getLaneNumber() + " X" + availableCells.get(i).getLaneIndexX() + " Y" + availableCells.get(i).getLaneIndexY());
+                                        }
+                                        System.out.print("Input: ");
+                                        int cellNumber = Integer.parseInt(Utils.input.readLine()) - 1;
+                                        if (cellNumber >= 0 && cellNumber < availableCells.size()) {
+                                            ValorCell newCell = availableCells.get(cellNumber);
+                                            setHeroPosition(hero, newCell.getLaneNumber(), newCell.getLaneIndexX(), newCell.getLaneIndexY());
+                                            break;
+                                        } else {
+                                            throw new Exception("Invalid Choice");
+                                        }
                                     } else {
-                                        throw new Exception("Invalid Choice");
+                                        throw new Exception("No available cells");
                                     }
                                 } else if (playedMove.equalsIgnoreCase("M") && ((ValorCell) hero.getCurrentCell()).getCellType() == CellSpace.HERONEXUS) {
                                     // Market
@@ -387,18 +456,28 @@ public class ValorDriver {
                         int newX = currentCell.getLaneIndexX();
                         int newY = currentCell.getLaneIndexY();
                         if (newX < vLayout.getLength() - 1) {
-                            if (!((ValorCell) vLayout.getCell(newLane, newX, 0)).isHeroPresent()
-                                    && !((ValorCell) vLayout.getCell(newLane, newX, 1)).isHeroPresent()) {
+                            List<Pawn> heroes = findTargetsInRange(monster);
+                            // if no heroes in range, move forward
+                            if (heroes.size() == 0) {
                                 // Move down
                                 ((ValorCell) monster.getCurrentCell()).removeMonster();
                                 monster.setCurrentCell(vLayout.getCell(newLane, newX + 1, newY));
                                 ((ValorCell) vLayout.getCell(newLane, newX + 1, newY)).setMonster(monster);
                             }
+                            // if there are heroes in range, attack randomly
+                            else {
+                                int randomHero = (int) (Math.random() * heroes.size());
+                                ValorHero targetHero = (ValorHero) heroes.get(randomHero);
+                                BattleDriver.attackOfMonster(monster, targetHero);
+                                BattleDriver.checkBattleStatus(teamHero, teamMonster);
+                            }
                         }
                     }
                     // TODO: Check if the game is over
+                    // TODO: Check and revive dead heroes
                     currentRound++;
                 }
+
             } catch (Exception error) {
                 System.out.println("Uh oh!! The game crashed! Apologise for the inconvenience!! \nError " + error.getMessage());
             }
