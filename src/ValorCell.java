@@ -18,9 +18,10 @@ public class ValorCell extends Cell {
     public ValorCell(Integer unitPosition, Integer unitIndexX, Integer unitIndexY) {
         super(unitPosition, unitIndexX, unitIndexY);
         this.setCellType(CellSpace.DEFAULT);
-        this.setLaneNumber(-1);
-        this.setLaneIndexX(-1);
-        this.setLaneIndexY(-1);
+        int lane = (unitIndexY < 2) ? 0 : ((unitIndexY < 5) ? 1 : 2);
+        this.setLaneNumber(lane);
+        this.setLaneIndexX(unitIndexX);
+        this.setLaneIndexY(unitIndexY - 3 * lane);
         this.setHero(null);
         this.setMonster(null);
     }
