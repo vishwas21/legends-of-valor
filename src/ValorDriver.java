@@ -398,7 +398,7 @@ public class ValorDriver {
                                     System.out.println("Which hero would you like to teleport to?");
                                     Team otherTeam = teamHero.clone();
                                     otherTeam.removePawn(hero);
-                                    BattleDriver.displayTeam(otherTeam, "Heroes");
+                                    Team.displayTeam(otherTeam, "Heroes");
                                     System.out.print("Input: ");
                                     int heroNumber = Integer.parseInt(Utils.input.readLine()) - 1;
                                     // Check available cells near the hero
