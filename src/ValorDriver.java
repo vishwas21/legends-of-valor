@@ -23,6 +23,7 @@ public class ValorDriver {
     private static Team teamHero;
     private static Team teamMonster;
     private static ValorLayout vLayout;
+    private static Integer currentRound;
 
     public static HashMap<String, ArrayList<Pawn>> getHeroMap() {
         return heroMap;
@@ -251,7 +252,10 @@ public class ValorDriver {
                 System.out.println("Hit Enter to continue :)");
                 Utils.input.readLine();
 
+                currentRound = 1;
+
                 while (true) {
+                    System.out.println("Round " + currentRound + " :");
                     String playedMove;
                     // Each hero gets to play a move
                     for (Pawn pawn : teamHero.getPawnList()) {
@@ -392,6 +396,8 @@ public class ValorDriver {
                             }
                         }
                     }
+                    // TODO: Check if the game is over
+                    currentRound++;
                 }
             } catch (Exception error) {
                 System.out.println("Uh oh!! The game crashed! Apologise for the inconvenience!! \nError " + error.getMessage());
