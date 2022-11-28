@@ -316,6 +316,7 @@ public class ValorDriver {
                 Utils.input.readLine();
 
                 currentRound = 1;
+                // MarketDriver.enterMarket();
 
                 while (true) {
                     System.out.println("Round " + currentRound + " :");
