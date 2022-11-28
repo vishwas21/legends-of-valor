@@ -23,7 +23,9 @@ public class ValorHero extends ValorNPC {
     private HashMap<ItemType, Item> itemsEquipped;
     private HashMap<ItemType, ArrayList<Item>> itemInventory;
 
-    public ValorHero() { }
+    public ValorHero() {
+        this.setType(String.valueOf(NPCType.HERO));
+    }
 
     public ValorHero(String name, Integer level, Integer maxHealthPoints, Integer experiencePoints, Integer maxMagicPoints, Integer strength, Integer dexterity, Integer agility, Integer gold) {
         super(name, level, maxHealthPoints);

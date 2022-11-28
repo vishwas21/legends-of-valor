@@ -337,6 +337,10 @@ public class ValorDriver {
                         System.out.println("S - Move Down");
                         System.out.println("D - Move Right");
 //                                System.out.println("E - Attack");
+                        System.out.println("E - Equip Item");
+                        System.out.println("F - Attack");
+                        System.out.println("G - Use Potion");
+                        System.out.println("H - Use Spell");
                         System.out.println("R - Recall");
                         System.out.println("T - Teleport");
                         if (((ValorCell) hero.getCurrentCell()).getCellType() == CellSpace.HERONEXUS) {
@@ -433,6 +437,107 @@ public class ValorDriver {
                                     } else {
                                         throw new Exception("No available cells");
                                     }
+                                } else if (playedMove.equalsIgnoreCase("F")) {
+                                    // Attack
+                                    // Check if any Monsters are in range
+                                    List<Pawn> monstersInRange = findTargetsInRange(hero);
+                                    if (monstersInRange.size() > 0) {
+                                        // Let the user choose the target
+                                        System.out.println("Which monster would you like to attack?");
+                                        for (int i = 0; i < monstersInRange.size(); i++) {
+                                            System.out.println((i + 1) + " - " + monstersInRange.get(i).getName());
+                                        }
+                                        System.out.print("Input: ");
+                                        int monsterNumber = Integer.parseInt(Utils.input.readLine()) - 1;
+                                        if (monsterNumber >= 0 && monsterNumber < monstersInRange.size()) {
+                                            // Attack the monster
+                                            ValorMonster monster = (ValorMonster) monstersInRange.get(monsterNumber);
+                                            if (BattleDriver.attackOfHero(hero, monster)) {
+                                                // If the monster is dead, remove it from the board and the team
+                                                ((ValorCell) monster.getCurrentCell()).removeMonster();
+                                                teamMonster.removePawn(monster);
+                                                // Give all not-fainted heroes rewards
+                                                for (Pawn uf_pawn : teamHero.getPawnList()) {
+                                                    ValorHero uf_hero = (ValorHero) uf_pawn;
+                                                    if (!uf_hero.getDidFaint()) {
+                                                        uf_hero.setGold(uf_hero.getGold() + 500 * monster.getLevel());
+                                                        uf_hero.setExperiencePoints(uf_hero.getExperiencePoints() + 2 * monster.getLevel());
+                                                        BattleDriver.checkHeroLevelUp(uf_hero);
+                                                    }
+                                                }
+                                            }
+                                            break;
+                                        } else {
+                                            throw new Exception("Invalid Choice");
+                                        }
+                                    } else {
+                                        throw new Exception("No monsters in range");
+                                    }
+                                } else if (playedMove.equalsIgnoreCase("G")) {
+                                    // Use potion
+                                    if (BattleDriver.usePotion(hero)) {
+                                        break;
+                                    } else {
+                                        throw new Exception(TextColors.RED + "Failed to use potion");
+                                    }
+                                } else if (playedMove.equalsIgnoreCase("H")) {
+                                    // Use spell
+                                    // Find available targets first
+                                    List<Pawn> targets = findTargetsInRange(hero);
+                                    if (targets.size() == 0) {
+                                        throw new Exception("No targets in range");
+                                    }
+                                    // Let the user choose the target
+                                    System.out.println("Which target would you like to choose?");
+                                    for (int i = 0; i < targets.size(); i++) {
+                                        System.out.println((i + 1) + " - " + targets.get(i).getName());
+                                    }
+                                    System.out.print("Input: ");
+                                    int targetNumber = Integer.parseInt(Utils.input.readLine()) - 1;
+                                    if (targetNumber >= 0 && targetNumber < targets.size()) {
+                                        int result = BattleDriver.useSpell(hero, (ValorMonster) targets.get(targetNumber));
+                                        if (result == 1) {
+                                            // If the monster is dead, remove it from the board and the team
+                                            ((ValorCell) ((ValorMonster) targets.get(targetNumber)).getCurrentCell()).removeMonster();
+                                            teamMonster.removePawn(targets.get(targetNumber));
+                                            // Give all not-fainted heroes rewards
+                                            for (Pawn uf_pawn : teamHero.getPawnList()) {
+                                                ValorHero uf_hero = (ValorHero) uf_pawn;
+                                                if (!uf_hero.getDidFaint()) {
+                                                    uf_hero.setGold(uf_hero.getGold() + 500 * ((ValorMonster) targets.get(targetNumber)).getLevel());
+                                                    uf_hero.setExperiencePoints(uf_hero.getExperiencePoints() + 2 * ((ValorMonster) targets.get(targetNumber)).getLevel());
+                                                    BattleDriver.checkHeroLevelUp(uf_hero);
+                                                }
+                                            }
+                                        } else if (result < 0) {
+                                            System.out.println(TextColors.RED + "Failed to use spell");
+                                            continue;
+                                        }
+                                        break;
+                                    } else {
+                                        throw new Exception("Invalid Choice");
+                                    }
+                                } else if (playedMove.equalsIgnoreCase("E")) {
+                                    // Equip item
+                                    System.out.println("Which kind of item would you like to equip?");
+                                    System.out.println("1 - Weapon");
+                                    System.out.println("2 - Armor");
+                                    int itemType = Integer.parseInt(Utils.input.readLine());
+                                    if (itemType == 1) {
+                                        if (BattleDriver.equipWeaponArmor(hero, ItemType.WEAPON)) {
+                                            break;
+                                        } else {
+                                            throw new Exception(TextColors.RED + "Failed to equip weapon");
+                                        }
+                                    } else if (itemType == 2) {
+                                        if (BattleDriver.equipWeaponArmor(hero, ItemType.ARMOR)) {
+                                            break;
+                                        } else {
+                                            throw new Exception(TextColors.RED + "Failed to equip armor");
+                                        }
+                                    } else {
+                                        throw new Exception("Invalid Choice");
+                                    }
                                 } else if (playedMove.equalsIgnoreCase("M") && ((ValorCell) hero.getCurrentCell()).getCellType() == CellSpace.HERONEXUS) {
                                     // Market
                                     MarketDriver.enterMarket();
@@ -446,7 +551,7 @@ public class ValorDriver {
                                 System.out.println(e.getMessage());
                             }
                         }
-
+                        System.out.println(TextColors.RESET);
                     }
                     // For each monster to make a move if valid
                     for (Pawn pawn : teamMonster.getPawnList()) {

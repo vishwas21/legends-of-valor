@@ -4,7 +4,9 @@ public class ValorMonster extends ValorNPC {
     private Integer defense;
     private Integer dodge;
 
-    public ValorMonster() {}
+    public ValorMonster() {
+        this.setType(String.valueOf(NPCType.MONSTER));
+    }
 
     public ValorMonster(String name, Integer level, Integer maxHealthPoints, Integer baseDamage, Integer defense, Integer dodge) {
         super(name, level, maxHealthPoints);
