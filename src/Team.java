@@ -52,6 +52,12 @@ public class Team {
         this.pawnList.add(newTeamItem);
     }
 
+    public Pawn removePawn(Pawn newTeamItem) {
+        this.pawnList.remove(newTeamItem);
+        this.teamSize--;
+        return newTeamItem;
+    }
+
     public ArrayList<Pawn> getPawnList() {
         return pawnList;
     }
@@ -70,5 +76,15 @@ public class Team {
 
     public void setPositionY(Integer positionY) {
         this.positionY = positionY;
+    }
+
+    public Team clone() {
+        Team newTeam = new Team(this.getTeamSize());
+        newTeam.initTeam();
+        for (Pawn pawn : this.getPawnList()) {
+            ValorHero hero = (ValorHero) pawn;
+            newTeam.addPawn(hero);
+        }
+        return newTeam;
     }
 }

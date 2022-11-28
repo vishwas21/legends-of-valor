@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Valor Class: This is the driver class for the Legends of Valor game. The Starting point for everything in this game.
@@ -240,25 +241,29 @@ public class ValorDriver {
                 System.out.println("This is the latest state of the layout with the heroes team present :)");
 
                 while (true) {
-                    try {
-                        String playedMove;
-                        // Each hero gets to play a move
-                        for (Pawn pawn : teamHero.getPawnList()) {
-                            ValorHero hero = (ValorHero) pawn;
-                            while (true) {
-                                System.out.println("It is " + hero.getName() + "'s turn to play a move!");
-                                vLayout.displayLayout();
-                                System.out.println("Current Position : " + ((ValorCell) hero.getCurrentCell()).getLaneNumber()
-                                        + " " + ((ValorCell) hero.getCurrentCell()).getLaneIndexX()
-                                        + " " + ((ValorCell) hero.getCurrentCell()).getLaneIndexY());
-                                System.out.println("\nFollowing are the rules for movements in the game!! Please press the right button to play the game!");
-                                System.out.println("W - Move Up");
-                                System.out.println("A - Move Left");
-                                System.out.println("S - Move Down");
-                                System.out.println("D - Move Right");
+                    String playedMove;
+                    // Each hero gets to play a move
+                    for (Pawn pawn : teamHero.getPawnList()) {
+                        ValorHero hero = (ValorHero) pawn;
+                        System.out.println("It is " + hero.getName() + "'s turn to play a move!");
+                        vLayout.displayLayout();
+                        System.out.println("Current Position : " + ((ValorCell) hero.getCurrentCell()).getLaneNumber()
+                                + " " + ((ValorCell) hero.getCurrentCell()).getLaneIndexX()
+                                + " " + ((ValorCell) hero.getCurrentCell()).getLaneIndexY());
+                        System.out.println("\nFollowing are the rules for movements in the game!! Please press the right button to play the game!");
+                        System.out.println("W - Move Up");
+                        System.out.println("A - Move Left");
+                        System.out.println("S - Move Down");
+                        System.out.println("D - Move Right");
 //                                System.out.println("E - Attack");
-                                System.out.println("T - Teleport");
-                                System.out.println("Q - Quit Game");
+                        System.out.println("R - Recall");
+                        System.out.println("T - Teleport");
+                        if (((ValorCell) hero.getCurrentCell()).getCellType() == CellSpace.HERONEXUS) {
+                            System.out.println("M - Market");
+                        }
+                        System.out.println("Q - Quit Game");
+                        try {
+                            while (true) {
                                 System.out.print("What would you like to do? ");
                                 playedMove = Utils.input.readLine();
                                 ValorCell currentCell = (ValorCell) hero.getCurrentCell();
@@ -283,28 +288,67 @@ public class ValorDriver {
                                     } else {
                                         throw new Exception("Invalid Move");
                                     }
+                                } else if (playedMove.equalsIgnoreCase("R")) {
+                                    // Recall
+                                    // Check if the nexus is empty
+                                    ValorCell nexusCell = (ValorCell) hero.getNexusCell();
+                                    if (!nexusCell.isHeroPresent()) {
+                                        // remove the hero from the current cell
+                                        ((ValorCell) (hero.getCurrentCell())).removeHero();
+                                        // set the hero in the new cell
+                                        hero.setCurrentCell(nexusCell);
+                                        nexusCell.setHero(hero);
+                                        break;
+                                    } else {
+                                        // Check if the cell next to the origin nexus cell is empty
+                                        if (((ValorCell) vLayout.getCell(nexusCell.getLaneNumber(), nexusCell.getLaneIndexX(), (nexusCell.getLaneIndexY() + 1) % 2)).isHeroPresent())
+                                            throw new Exception("Nexus is not empty");
+                                        // remove the hero from the current cell
+                                        ((ValorCell) (hero.getCurrentCell())).removeHero();
+                                        // set the hero in the new cell
+                                        hero.setCurrentCell(vLayout.getCell(nexusCell.getLaneNumber(), nexusCell.getLaneIndexX(), (nexusCell.getLaneIndexY() + 1) % 2));
+                                        ((ValorCell) vLayout.getCell(nexusCell.getLaneNumber(), nexusCell.getLaneIndexX(), (nexusCell.getLaneIndexY() + 1) % 2)).setHero(hero);
+                                    }
                                 } else if (playedMove.equalsIgnoreCase("T")) {
                                     // Teleport
-                                    System.out.println("Where would you like to teleport to? (LaneNumber X Y)");
+                                    System.out.println("Which hero would you like to teleport to?");
+                                    Team otherTeam = teamHero.clone();
+                                    otherTeam.removePawn(hero);
+                                    BattleDriver.displayTeam(otherTeam, "Heroes");
                                     System.out.print("Input: ");
-                                    String[] teleportPosition = Utils.input.readLine().split(" ");
-                                    try {
-                                        newLane = Integer.parseInt(teleportPosition[0]);
-                                        newX = Integer.parseInt(teleportPosition[1]);
-                                        newY = Integer.parseInt(teleportPosition[2]);
-                                        if (checkValidMovement(newLane, newX, newY)) {
-                                            if (((ValorCell) vLayout.getCell(newLane, newX, newY)).isDiscovered()) {
-                                                setHeroPosition(hero, newLane, newX, newY);
-                                                break;
-                                            } else {
-                                                throw new Exception("Cell not discovered");
-                                            }
-                                        } else {
-                                            throw new Exception("Invalid Move");
-                                        }
-                                    } catch (Exception e) {
-                                        System.out.println(e.getMessage());
+                                    int heroNumber = Integer.parseInt(Utils.input.readLine()) - 1;
+                                    // Check available cells near the hero
+                                    ValorHero targetHero = (ValorHero) otherTeam.getPawnAtIndex(heroNumber);
+                                    ValorCell targetCell = (ValorCell) targetHero.getCurrentCell();
+                                    int targetLane = targetCell.getLaneNumber();
+                                    int targetX = targetCell.getLaneIndexX();
+                                    int targetY = targetCell.getLaneIndexY();
+                                    List<ValorCell> availableCells = new ArrayList<>();
+                                    // Check the cell below the hero
+                                    if (checkValidMovement(targetLane, targetX + 1, targetY)) {
+                                        availableCells.add((ValorCell) vLayout.getCell(targetLane, targetX + 1, targetY));
                                     }
+                                    // Check the cell next to the hero
+                                    if (checkValidMovement(targetLane, targetX, (targetY + 1) % 2)) {
+                                        availableCells.add((ValorCell) vLayout.getCell(targetLane, targetX, (targetY + 1) % 2));
+                                    }
+                                    // Let the user choose the cell
+                                    System.out.println("Which cell would you like to teleport to?");
+                                    for (int i = 0; i < availableCells.size(); i++) {
+                                        System.out.println((i + 1) + " - " + availableCells.get(i).getLaneNumber() + " " + availableCells.get(i).getLaneIndexX() + " " + availableCells.get(i).getLaneIndexY());
+                                    }
+                                    System.out.print("Input: ");
+                                    int cellNumber = Integer.parseInt(Utils.input.readLine()) - 1;
+                                    if (cellNumber >= 0 && cellNumber < availableCells.size()) {
+                                        ValorCell newCell = availableCells.get(cellNumber);
+                                        setHeroPosition(hero, newCell.getLaneNumber(), newCell.getLaneIndexX(), newCell.getLaneIndexY());
+                                        break;
+                                    } else {
+                                        throw new Exception("Invalid Choice");
+                                    }
+                                } else if (playedMove.equalsIgnoreCase("M") && ((ValorCell) hero.getCurrentCell()).getCellType() == CellSpace.HERONEXUS) {
+                                    // Market
+                                    MarketDriver.enterMarket();
                                 } else if (playedMove.equalsIgnoreCase("Q")) {
                                     System.out.println("You have quit the game! Thank you for playing!");
                                     System.exit(0);
@@ -312,26 +356,26 @@ public class ValorDriver {
                                     throw new Exception("Invalid Input! Please try again!");
                                 }
                             }
+                        } catch (Exception e) {
+                            System.out.println(e.getMessage());
                         }
-                        // For each monster to make a move if valid
-                        for (Pawn pawn : teamMonster.getPawnList()) {
-                            ValorMonster monster = (ValorMonster) pawn;
-                            ValorCell currentCell = (ValorCell) monster.getCurrentCell();
-                            int newLane = currentCell.getLaneNumber();
-                            int newX = currentCell.getLaneIndexX();
-                            int newY = currentCell.getLaneIndexY();
-                            if (newX < vLayout.getLength() - 1) {
-                                if (!((ValorCell) vLayout.getCell(newLane, newX, 0)).isHeroPresent()
-                                        && !((ValorCell) vLayout.getCell(newLane, newX, 1)).isHeroPresent()) {
-                                    // Move down
-                                    ((ValorCell) monster.getCurrentCell()).removeMonster();
-                                    monster.setCurrentCell(vLayout.getCell(newLane, newX + 1, newY));
-                                    ((ValorCell) vLayout.getCell(newLane, newX + 1, newY)).setMonster(monster);
-                                }
+                    }
+                    // For each monster to make a move if valid
+                    for (Pawn pawn : teamMonster.getPawnList()) {
+                        ValorMonster monster = (ValorMonster) pawn;
+                        ValorCell currentCell = (ValorCell) monster.getCurrentCell();
+                        int newLane = currentCell.getLaneNumber();
+                        int newX = currentCell.getLaneIndexX();
+                        int newY = currentCell.getLaneIndexY();
+                        if (newX < vLayout.getLength() - 1) {
+                            if (!((ValorCell) vLayout.getCell(newLane, newX, 0)).isHeroPresent()
+                                    && !((ValorCell) vLayout.getCell(newLane, newX, 1)).isHeroPresent()) {
+                                // Move down
+                                ((ValorCell) monster.getCurrentCell()).removeMonster();
+                                monster.setCurrentCell(vLayout.getCell(newLane, newX + 1, newY));
+                                ((ValorCell) vLayout.getCell(newLane, newX + 1, newY)).setMonster(monster);
                             }
                         }
-                    } catch (Exception e) {
-                        System.out.println(e.getMessage());
                     }
                 }
             } catch (Exception error) {
