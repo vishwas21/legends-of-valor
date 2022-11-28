@@ -116,6 +116,7 @@ public class ValorLayout implements VLayout {
         for (int column = 0; column < this.breadth; column ++) {
             if (this.getCellType(this.length - 1, column) != CellSpace.INACCESSIBLE) {
                 ((ValorCell)this.getCell(this.length - 1, column)).setCellType(CellSpace.HERONEXUS);
+                ((ValorCell)this.getCell(this.length - 1, column)).setDiscovered(true);
             }
         }
     }

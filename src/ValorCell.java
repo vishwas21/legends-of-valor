@@ -14,6 +14,7 @@ public class ValorCell extends Cell {
     private Integer laneIndexY;
     private Pawn hero;
     private Pawn monster;
+    private boolean discovered;
 
     public ValorCell(Integer unitPosition, Integer unitIndexX, Integer unitIndexY) {
         super(unitPosition, unitIndexX, unitIndexY);
@@ -24,6 +25,15 @@ public class ValorCell extends Cell {
         this.setLaneIndexY(unitIndexY - 3 * lane);
         this.setHero(null);
         this.setMonster(null);
+        this.setDiscovered(false);
+    }
+
+    public void setDiscovered(boolean b) {
+        this.discovered = b;
+    }
+
+    public boolean isDiscovered() {
+        return this.discovered;
     }
 
     public CellSpace getCellType() {
