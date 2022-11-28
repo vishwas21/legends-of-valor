@@ -150,7 +150,7 @@ public class ValorDriver {
         for (int index = teamMonster.getTeamSize() - 3; index < teamMonster.getTeamSize(); ) {
             selectedMonster = monsterList.get(Utils.randomNumber.nextInt(monsterList.size()));
             if (((ValorMonster) selectedMonster).getLevel() >= minMonsterLevel && ((ValorMonster) selectedMonster).getLevel() <= maxMonsterLevel) {
-                selectedMonster = ((ValorMonster) selectedMonster).clone();
+                selectedMonster = ((ValorMonster) selectedMonster).cloneObj();
                 Cell nexusCell = vLayout.getCell((index % 3), 0, 1);
                 ((ValorCell) nexusCell).setMonster(selectedMonster);
                 ((ValorMonster) (selectedMonster)).setNexusCell(nexusCell);
