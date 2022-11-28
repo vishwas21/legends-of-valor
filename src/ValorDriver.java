@@ -1,7 +1,3 @@
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -149,7 +145,7 @@ public class ValorDriver {
         for (int index = teamMonster.getTeamSize() - 3; index < teamMonster.getTeamSize(); ) {
             selectedMonster = monsterList.get(Utils.randomNumber.nextInt(monsterList.size()));
             if (((ValorMonster) selectedMonster).getLevel() >= minMonsterLevel && ((ValorMonster) selectedMonster).getLevel() <= maxMonsterLevel) {
-                selectedMonster = ((ValorMonster) selectedMonster).clone();
+                selectedMonster = ((ValorMonster) selectedMonster).cloneObj();
                 Cell nexusCell = vLayout.getCell((index % 3), 0, 1);
                 ((ValorCell) nexusCell).setMonster(selectedMonster);
                 ((ValorMonster) (selectedMonster)).setNexusCell(nexusCell);
@@ -235,9 +231,20 @@ public class ValorDriver {
                 teamMonster.setTeamSize(0);
                 buildMonsterTeam(teamMonster, teamHero);
 
+                System.out.println("This is the team of Heroes : ");
+                Team.displayTeam(teamHero, "heroes");
+                System.out.println("\n\n Below are the team of Monsters :");
+                Team.displayTeam(teamMonster, "monsters");
+
+                System.out.println("Hit Enter to continue :)");
+                Utils.input.readLine();
+
                 System.out.println("\n\n\n");
                 vLayout.displayLayout();
                 System.out.println("This is the latest state of the layout with the heroes team present :)");
+
+                System.out.println("Hit Enter to continue :)");
+                Utils.input.readLine();
 
                 while (true) {
                     try {
@@ -246,8 +253,8 @@ public class ValorDriver {
                         for (Pawn pawn : teamHero.getPawnList()) {
                             ValorHero hero = (ValorHero) pawn;
                             while (true) {
-                                System.out.println("It is " + hero.getName() + "'s turn to play a move!");
                                 vLayout.displayLayout();
+                                System.out.println("\n\nIt is " + hero.getSymbol() + ": " + hero.getName() + "'s turn to play a move!");
                                 System.out.println("Current Position : " + ((ValorCell) hero.getCurrentCell()).getLaneNumber()
                                         + " " + ((ValorCell) hero.getCurrentCell()).getLaneIndexX()
                                         + " " + ((ValorCell) hero.getCurrentCell()).getLaneIndexY());

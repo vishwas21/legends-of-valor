@@ -26,7 +26,7 @@ public class Armor extends Item {
         System.out.format("|  %-7s  |  %-20s  |  %-12d  |  %-12d  |  %-15d  |\n", index, this.getName(), this.getPrice(), this.getLevel(), this.getDamageReduction());
     }
 
-    public Armor clone() {
+    public Armor cloneObj() {
         return new Armor(this.getName(), this.getPrice(), this.getLevel(), this.getDamageReduction());
     }
 }

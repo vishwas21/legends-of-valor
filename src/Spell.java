@@ -43,7 +43,7 @@ public class Spell extends Item {
         System.out.format("|  %-7s  |  %-20s  |  %-12d  |  %-12d  |  %-15d  |  %-10d  | %-10s  |\n", index, this.getName(), this.getPrice(), this.getLevel(), this.getDamage(), this.getMpCost(), this.getSpellType().toString());
     }
 
-    public Spell clone() {
+    public Spell cloneObj() {
         return new Spell(this.getName(), this.getPrice(), this.getLevel(), this.getDamage(), this.getMpCost(), this.getSpellType());
     }
 }
