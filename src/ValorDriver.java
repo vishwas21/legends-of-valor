@@ -337,7 +337,6 @@ public class ValorDriver {
                         System.out.println("A - Move Left");
                         System.out.println("S - Move Down");
                         System.out.println("D - Move Right");
-//                                System.out.println("E - Attack");
                         System.out.println("E - Equip Item");
                         System.out.println("F - Attack");
                         System.out.println("G - Use Potion");
@@ -553,6 +552,19 @@ public class ValorDriver {
                             }
                         }
                         System.out.println(TextColors.RESET);
+                        // Check if heroes win
+                        if (((ValorCell) hero.getCurrentCell()).getLaneIndexX() == 0) {
+                            System.out.println(TextColors.GREEN + "You have defeated the monster! You win!");
+                            System.out.println(TextColors.RESET);
+                            System.out.println("Do you want to play again? (Y/N)");
+                            String playAgain = Utils.input.readLine();
+                            if (playAgain.equalsIgnoreCase("Y")) {
+                                playGame();
+                            } else {
+                                System.out.println("Thank you for playing!");
+                                System.exit(0);
+                            }
+                        }
                     }
                     // For each monster to make a move if valid
                     for (Pawn pawn : teamMonster.getPawnList()) {
@@ -565,10 +577,25 @@ public class ValorDriver {
                             List<Pawn> heroes = findTargetsInRange(monster);
                             // if no heroes in range, move forward
                             if (heroes.size() == 0) {
-                                // Move down
-                                ((ValorCell) monster.getCurrentCell()).removeMonster();
-                                monster.setCurrentCell(vLayout.getCell(newLane, newX + 1, newY));
-                                ((ValorCell) vLayout.getCell(newLane, newX + 1, newY)).setMonster(monster);
+                                // If cell not occupied
+                                if (!((ValorCell) vLayout.getCell(newLane, newX + 1, newY)).isMonsterPresent()) {
+                                    // Move down
+                                    ((ValorCell) monster.getCurrentCell()).removeMonster();
+                                    monster.setCurrentCell(vLayout.getCell(newLane, newX + 1, newY));
+                                    ((ValorCell) vLayout.getCell(newLane, newX + 1, newY)).setMonster(monster);
+                                    // Check if monsters win
+                                    if (((ValorCell) monster.getCurrentCell()).getLaneIndexX() == vLayout.getLength() - 1) {
+                                        System.out.println(TextColors.RED + "The monster has reached the end! You lose!");
+                                        System.out.println(TextColors.RESET);
+                                        System.out.println("Do you want to play again? (Y/N)");
+                                        String playAgain = Utils.input.readLine();
+                                        if (playAgain.equalsIgnoreCase("Y")) {
+                                            playGame();
+                                        } else {
+                                            System.exit(0);
+                                        }
+                                    }
+                                }
                             }
                             // if there are heroes in range, attack randomly
                             else {
@@ -579,8 +606,17 @@ public class ValorDriver {
                             }
                         }
                     }
-                    // TODO: Check if the game is over
-                    // TODO: Check and revive dead heroes
+                    // Check and revive dead heroes
+                    for (Pawn pawn : teamHero.getPawnList()) {
+                        ValorHero hero = (ValorHero) pawn;
+                        if (hero.getDidFaint()) {
+                            hero.setFaint(false);
+                            hero.setCurrentHitPoints(hero.getMaxHitPoints());
+                            hero.setCurrentMagicPoints(hero.getMaxMagicPoints());
+                            ValorCell originNexus = (ValorCell) hero.getNexusCell();
+                            originNexus.setHero(hero);
+                        }
+                    }
                     currentRound++;
                 }
 

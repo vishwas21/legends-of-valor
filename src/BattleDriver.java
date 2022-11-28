@@ -56,7 +56,7 @@ public class BattleDriver {
         // return 1 if the spell is casted and the monster is killed
         if (hero.getItemInventory().get(ItemType.SPELL).size() != 0) {
             System.out.println("Here are the list of spell which your hero has : ");
-            Utils.displayPotions(hero.getItemInventory().get(ItemType.SPELL));
+            Utils.displaySpells(hero.getItemInventory().get(ItemType.SPELL));
             System.out.print("\n Please choose a spell which you would like to use (Please note that they are exhaustible : )");
             int selectedSpell = Integer.parseInt(Utils.input.readLine()) - 1;
 

@@ -132,9 +132,9 @@ public class MarketDriver {
             } else if (itemType == ItemType.ARMOR) {
                 Utils.displayArmors(selectedHero.getItemInventory().get(itemType));
             } else if (itemType == ItemType.POTION) {
-                Utils.displayArmors(selectedHero.getItemInventory().get(itemType));
+                Utils.displayPotions(selectedHero.getItemInventory().get(itemType));
             } else if (itemType == ItemType.SPELL) {
-                Utils.displayArmors(selectedHero.getItemInventory().get(itemType));
+                Utils.displaySpells(selectedHero.getItemInventory().get(itemType));
             }
 
             System.out.print("Please select a "+ itemType +" which you would like to sell: ");
