@@ -236,9 +236,20 @@ public class ValorDriver {
                 teamMonster.setTeamSize(0);
                 buildMonsterTeam(teamMonster, teamHero);
 
+                System.out.println("This is the team of Heroes : ");
+                Team.displayTeam(teamHero, "heroes");
+                System.out.println("\n\n Below are the team of Monsters :");
+                Team.displayTeam(teamMonster, "monsters");
+
+                System.out.println("Hit Enter to continue :)");
+                Utils.input.readLine();
+
                 System.out.println("\n\n\n");
                 vLayout.displayLayout();
                 System.out.println("This is the latest state of the layout with the heroes team present :)");
+
+                System.out.println("Hit Enter to continue :)");
+                Utils.input.readLine();
 
                 while (true) {
                     String playedMove;

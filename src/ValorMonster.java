@@ -52,7 +52,7 @@ public class ValorMonster extends ValorNPC {
         System.out.format("|  %-7d  |  %-20s  |  %-8d  |  %-10d  |  %-15s  |  %-10d  |  %-10d  |\n", index, this.getName(), this.getLevel(), this.getCurrentHitPoints(), this.getBaseDamage(), this.getDefense(), this.getDodge());
     }
 
-    public ValorMonster clone() {
+    public ValorMonster cloneObj() {
         return new ValorMonster(this.getName(), this.getLevel(), this.getMaxHitPoints(), this.getBaseDamage(), this.getDefense(), this.getDodge());
     }
 }

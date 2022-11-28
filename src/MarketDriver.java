@@ -38,7 +38,7 @@ public class MarketDriver {
         }
 
         ((ValorHero)(ValorDriver.getTeamHero().getPawnAtIndex(customerHero))).setGold(((ValorHero)(ValorDriver.getTeamHero().getPawnAtIndex(customerHero))).getGold() - weaponPrice);
-        ((ValorHero)(ValorDriver.getTeamHero().getPawnAtIndex(customerHero))).getItemInventory().get(ItemType.WEAPON).add(((Weapon)(ValorDriver.getMarketItemMap().get(ItemType.WEAPON).get(itemNumber))).clone());
+        ((ValorHero)(ValorDriver.getTeamHero().getPawnAtIndex(customerHero))).getItemInventory().get(ItemType.WEAPON).add(((Weapon)(ValorDriver.getMarketItemMap().get(ItemType.WEAPON).get(itemNumber))).cloneObj());
     }
 
     public static void armorDriver() throws IOException {
@@ -65,7 +65,7 @@ public class MarketDriver {
         }
 
         ((ValorHero)(ValorDriver.getTeamHero().getPawnAtIndex(customerHero))).setGold(((ValorHero)(ValorDriver.getTeamHero().getPawnAtIndex(customerHero))).getGold() - armorPrice);
-        ((ValorHero)(ValorDriver.getTeamHero().getPawnAtIndex(customerHero))).getItemInventory().get(ItemType.ARMOR).add(((Armor)(ValorDriver.getMarketItemMap().get(ItemType.ARMOR).get(itemNumber))).clone());
+        ((ValorHero)(ValorDriver.getTeamHero().getPawnAtIndex(customerHero))).getItemInventory().get(ItemType.ARMOR).add(((Armor)(ValorDriver.getMarketItemMap().get(ItemType.ARMOR).get(itemNumber))).cloneObj());
     }
 
     public static void potionsDriver() throws IOException {
@@ -92,7 +92,7 @@ public class MarketDriver {
         }
 
         ((ValorHero)(ValorDriver.getTeamHero().getPawnAtIndex(customerHero))).setGold(((ValorHero)(ValorDriver.getTeamHero().getPawnAtIndex(customerHero))).getGold() - potionsPrice);
-        ((ValorHero)(ValorDriver.getTeamHero().getPawnAtIndex(customerHero))).getItemInventory().get(ItemType.POTION).add(((Potion)(ValorDriver.getMarketItemMap().get(ItemType.POTION).get(itemNumber))).clone());
+        ((ValorHero)(ValorDriver.getTeamHero().getPawnAtIndex(customerHero))).getItemInventory().get(ItemType.POTION).add(((Potion)(ValorDriver.getMarketItemMap().get(ItemType.POTION).get(itemNumber))).cloneObj());
     }
 
     public static void spellDriver() throws IOException {
@@ -119,7 +119,7 @@ public class MarketDriver {
         }
 
         ((ValorHero)(ValorDriver.getTeamHero().getPawnAtIndex(customerHero))).setGold(((ValorHero)(ValorDriver.getTeamHero().getPawnAtIndex(customerHero))).getGold() - spellPrice);
-        ((ValorHero)(ValorDriver.getTeamHero().getPawnAtIndex(customerHero))).getItemInventory().get(ItemType.SPELL).add(((Spell)(ValorDriver.getMarketItemMap().get(ItemType.SPELL).get(itemNumber))).clone());
+        ((ValorHero)(ValorDriver.getTeamHero().getPawnAtIndex(customerHero))).getItemInventory().get(ItemType.SPELL).add(((Spell)(ValorDriver.getMarketItemMap().get(ItemType.SPELL).get(itemNumber))).cloneObj());
     }
 
     public static void enterMarket() throws IOException {

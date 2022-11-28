@@ -37,7 +37,7 @@ public class Potion extends Item {
         System.out.format("|  %-7s  |  %-20s  |  %-12d  |  %-12d  |  %-17d  |  %-10s  |\n", index, this.getName(), this.getPrice(), this.getLevel(), this.getEffectAmount(), this.getPotionType().toString());
     }
 
-    public Potion clone() {
+    public Potion cloneObj() {
         return new Potion(this.getName(), this.getPrice(), this.getLevel(), this.getEffectAmount(), this.getPotionType());
     }
 }

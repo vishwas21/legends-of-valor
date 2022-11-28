@@ -33,7 +33,7 @@ public class Weapon extends Item {
         System.out.format("|  %-7s  |  %-20s  |  %-12d  |  %-12d  |  %-10d  |  %-10d  |\n", index, this.getName(), this.getPrice(), this.getLevel(), this.getDamage(), this.getNumOfHands());
     }
 
-    public Weapon clone() {
+    public Weapon cloneObj() {
         return new Weapon(this.getName(), this.getPrice(), this.getLevel(), this.getDamage(), this.getNumOfHands());
     }
 }
