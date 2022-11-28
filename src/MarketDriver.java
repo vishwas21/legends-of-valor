@@ -122,37 +122,95 @@ public class MarketDriver {
         ((ValorHero)(ValorDriver.getTeamHero().getPawnAtIndex(customerHero))).getItemInventory().get(ItemType.SPELL).add(((Spell)(ValorDriver.getMarketItemMap().get(ItemType.SPELL).get(itemNumber))).cloneObj());
     }
 
+    public static void saleDriver(ValorHero selectedHero, ItemType itemType) throws IOException {
+        if (selectedHero.getItemInventory().get(itemType).size() == 0) {
+            System.out.println("Hero does not have any " + itemType + " to sell!");
+        } else {
+            System.out.println("Below are the " + itemType.toString() + " which the hero has to sell : ");
+            if (itemType == ItemType.WEAPON) {
+                Utils.displayWeapons(selectedHero.getItemInventory().get(itemType));
+            } else if (itemType == ItemType.ARMOR) {
+                Utils.displayArmors(selectedHero.getItemInventory().get(itemType));
+            } else if (itemType == ItemType.POTION) {
+                Utils.displayArmors(selectedHero.getItemInventory().get(itemType));
+            } else if (itemType == ItemType.SPELL) {
+                Utils.displayArmors(selectedHero.getItemInventory().get(itemType));
+            }
+
+            System.out.print("Please select a "+ itemType +" which you would like to sell: ");
+            int itemNumber = Integer.parseInt(Utils.input.readLine()) - 1;
+
+            if (itemNumber < 0 || itemNumber >= selectedHero.getItemInventory().get(itemType).size()) {
+                throw new IllegalStateException("Invalid Item selected");
+            }
+
+            int itemPrice = selectedHero.getItemInventory().get(itemType).get(itemNumber).getPrice() / 2;
+
+            System.out.println("This item can be sold for " + itemPrice + " Gold. \nWould you like to continue? (Y/any)");
+            if (Utils.input.readLine().equalsIgnoreCase("Y")) {
+                selectedHero.setGold(selectedHero.getGold() + itemPrice);
+                selectedHero.getItemInventory().get(itemType).remove(itemNumber);
+                System.out.println("Sale Successful!! Item has been sold for "+ itemPrice + " Gold.");
+            } else {
+                System.out.println("Sale aborted :(");
+            }
+        }
+    }
+
     public static void enterMarket() throws IOException {
         while (true) {
             ValorDriver.printChar(TextColors.PURPLE, '*', 160);
             System.out.println();
             System.out.println("Welcome to the market! Here are various items which you can use to fight the monsters!\nHappy shopping :D\n");
-//            BattleDriver.displayTeam(ValorDriver.getTeamHero(), "Heroes");
+            Team.displayTeam(ValorDriver.getTeamHero(), "Heroes");
 
             try {
-                System.out.print("Please choose the hero who you want to buy the items : ");
+                System.out.print("Please choose the hero who you want to buy/sell the items : ");
                 customerHero = Integer.parseInt(Utils.input.readLine()) - 1;
 
                 if (customerHero < 0 || customerHero >= ValorDriver.getTeamHero().getTeamSize()) {
                     throw new IllegalStateException("Invalid hero choice");
                 }
                 System.out.println();
-                System.out.println("1. Weapons\n2. Armors\n3. Potions\n4. Spells");
+                System.out.println("Please choose one of the below options: \n1. Buy Items\n2. Sell Items");
+                int marketChoice = Integer.parseInt(Utils.input.readLine());
+                if (marketChoice != 1 && marketChoice != 2) {
+                    throw new IllegalStateException("Invalid choice!! \nYou and either buy or sell!! Please retry!");
+                }
+
+                System.out.println("\n\n1. Weapons\n2. Armors\n3. Potions\n4. Spells");
                 System.out.print("Please enter the number of the item which you would like to buy: ");
                 int choice = Integer.parseInt(Utils.input.readLine());
-                if (choice == 1) {
-                    weaponDriver();
-                } else if (choice == 2) {
-                    armorDriver();
-                } else if (choice == 3) {
-                    potionsDriver();
-                } else if (choice == 4) {
-                    spellDriver();
+
+                if (marketChoice == 1) {
+
+                    if (choice == 1) {
+                        weaponDriver();
+                    } else if (choice == 2) {
+                        armorDriver();
+                    } else if (choice == 3) {
+                        potionsDriver();
+                    } else if (choice == 4) {
+                        spellDriver();
+                    } else {
+                        System.out.println("Hope you can choose the right option next time! Please try again! :)");
+                    }
                 } else {
-                    System.out.println("Hope you can choose the right option next time! Please try again! :)");
+                    ValorHero selectedHero = ((ValorHero)(ValorDriver.getTeamHero().getPawnAtIndex(customerHero)));
+                    if (choice == 1) {
+                        saleDriver(selectedHero, ItemType.WEAPON);
+                    } else if (choice == 2) {
+                        saleDriver(selectedHero, ItemType.ARMOR);
+                    } else if (choice == 3) {
+                        saleDriver(selectedHero, ItemType.POTION);
+                    } else if (choice == 4) {
+                        saleDriver(selectedHero, ItemType.SPELL);
+                    } else {
+                        System.out.println("Hope you can choose the right option next time! Please try again! :)");
+                    }
                 }
             } catch (Exception error) {
-                System.out.println("Error Encountered while selected item : " + error.getMessage());
+                System.out.println("Error Encountered while selecting items : " + error.getMessage());
                 System.out.println("Please Try again!!");
                 continue;
             }
@@ -161,18 +219,5 @@ public class MarketDriver {
                 break;
             }
         }
-    }
-
-    public static void main(String[] args) throws IOException {
-        ValorDriver.generateConstants();
-
-        ValorDriver.initTeamHero();
-        ValorDriver.initTeamMonster();
-
-        ValorDriver.generateConstants();
-        ValorDriver.getTeamHero().setTeamSize(3);
-        ValorDriver.buildHeroTeam(ValorDriver.getTeamHero());
-
-        enterMarket();
     }
 }

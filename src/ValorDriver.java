@@ -246,6 +246,8 @@ public class ValorDriver {
                 System.out.println("Hit Enter to continue :)");
                 Utils.input.readLine();
 
+                // MarketDriver.enterMarket();
+
                 while (true) {
                     try {
                         String playedMove;
