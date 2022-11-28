@@ -273,8 +273,8 @@ public class ValorDriver {
                             System.out.println("M - Market");
                         }
                         System.out.println("Q - Quit Game");
-                        try {
-                            while (true) {
+                        while (true) {
+                            try {
                                 System.out.print("What would you like to do? ");
                                 playedMove = Utils.input.readLine();
                                 ValorCell currentCell = (ValorCell) hero.getCurrentCell();
@@ -303,6 +303,9 @@ public class ValorDriver {
                                     // Recall
                                     // Check if the nexus is empty
                                     ValorCell nexusCell = (ValorCell) hero.getNexusCell();
+                                    if (nexusCell == hero.getCurrentCell()) {
+                                        throw new Exception("You are already in the Nexus!");
+                                    }
                                     if (!nexusCell.isHeroPresent()) {
                                         // remove the hero from the current cell
                                         ((ValorCell) (hero.getCurrentCell())).removeHero();
@@ -346,7 +349,7 @@ public class ValorDriver {
                                     // Let the user choose the cell
                                     System.out.println("Which cell would you like to teleport to?");
                                     for (int i = 0; i < availableCells.size(); i++) {
-                                        System.out.println((i + 1) + " - " + availableCells.get(i).getLaneNumber() + " " + availableCells.get(i).getLaneIndexX() + " " + availableCells.get(i).getLaneIndexY());
+                                        System.out.println((i + 1) + " - Lane" + availableCells.get(i).getLaneNumber() + " X" + availableCells.get(i).getLaneIndexX() + " Y" + availableCells.get(i).getLaneIndexY());
                                     }
                                     System.out.print("Input: ");
                                     int cellNumber = Integer.parseInt(Utils.input.readLine()) - 1;
@@ -366,10 +369,11 @@ public class ValorDriver {
                                 } else {
                                     throw new Exception("Invalid Input! Please try again!");
                                 }
+                            } catch (Exception e) {
+                                System.out.println(e.getMessage());
                             }
-                        } catch (Exception e) {
-                            System.out.println(e.getMessage());
                         }
+
                     }
                     // For each monster to make a move if valid
                     for (Pawn pawn : teamMonster.getPawnList()) {
