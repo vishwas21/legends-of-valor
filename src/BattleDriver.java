@@ -4,13 +4,13 @@ public class BattleDriver {
 
     public static boolean usePotion(ValorHero hero) throws IOException {
         if (hero.getItemInventory().get(ItemType.POTION).size() != 0) {
-            System.out.println("Here are the list of potions which your hero has : ");
+            Utils.println(MsgType.INFO, "Here are the list of potions which your hero has : ");
             Utils.displayPotions(hero.getItemInventory().get(ItemType.POTION));
             System.out.print("\n Please choose a potion which you would like to use (Please note that they are exhaustible : )");
             int selectedPotion = Integer.parseInt(Utils.input.readLine()) - 1;
 
             if (selectedPotion < 0 || selectedPotion >= hero.getItemInventory().get(ItemType.POTION).size()) {
-                System.out.println("Please choose a valid option!!");
+                Utils.println(MsgType.WARNING, "Please choose a valid option!!");
                 return false;
             }
 
@@ -18,26 +18,26 @@ public class BattleDriver {
 
             if (potion.getPotionType() == PotionType.STRENGTH) {
                 hero.setStrength(hero.getStrength() + potion.getEffectAmount());
-                System.out.println("" + hero.getName() + " used the " + potion.getName() + " increasing the hero's strength to " + hero.getStrength());
+                Utils.println(MsgType.SUCCESS, "" + hero.getName() + " used the " + potion.getName() + " increasing the hero's strength to " + hero.getStrength());
             } else if (potion.getPotionType() == PotionType.AGILITY) {
                 hero.setAgility(hero.getAgility() + potion.getEffectAmount());
-                System.out.println("" + hero.getName() + " used the " + potion.getName() + " increasing the hero's agility to " + hero.getAgility());
+                Utils.println(MsgType.SUCCESS, "" + hero.getName() + " used the " + potion.getName() + " increasing the hero's agility to " + hero.getAgility());
             } else if (potion.getPotionType() == PotionType.HEALTH) {
                 hero.setCurrentHitPoints(hero.getCurrentHitPoints() + potion.getEffectAmount());
-                System.out.println("" + hero.getName() + " used the " + potion.getName() + " increasing the hero's health to " + hero.getCurrentHitPoints());
+                Utils.println(MsgType.SUCCESS, "" + hero.getName() + " used the " + potion.getName() + " increasing the hero's health to " + hero.getCurrentHitPoints());
             } else if (potion.getPotionType() == PotionType.MAGIC) {
                 hero.setCurrentMagicPoints(hero.getCurrentMagicPoints() + potion.getEffectAmount());
-                System.out.println("" + hero.getName() + " used the " + potion.getName() + " increasing the hero's mana to " + hero.getCurrentMagicPoints());
+                Utils.println(MsgType.SUCCESS, "" + hero.getName() + " used the " + potion.getName() + " increasing the hero's mana to " + hero.getCurrentMagicPoints());
             } else if (potion.getPotionType() == PotionType.DEXTERITY) {
                 hero.setDexterity(hero.getDexterity() + potion.getEffectAmount());
-                System.out.println("" + hero.getName() + " used the " + potion.getName() + " increasing the hero's dexterity to " + hero.getDexterity());
+                Utils.println(MsgType.SUCCESS, "" + hero.getName() + " used the " + potion.getName() + " increasing the hero's dexterity to " + hero.getDexterity());
             } else {
                 hero.setStrength(hero.getStrength() + potion.getEffectAmount());
                 hero.setAgility(hero.getAgility() + potion.getEffectAmount());
                 hero.setCurrentHitPoints(hero.getCurrentHitPoints() + potion.getEffectAmount());
                 hero.setCurrentMagicPoints(hero.getCurrentMagicPoints() + potion.getEffectAmount());
                 hero.setDexterity(hero.getDexterity() + potion.getEffectAmount());
-                System.out.println("" + hero.getName() + " used the " + potion.getName() + ". Effected attributes: \nStrength: " + hero.getStrength() + "\n" +
+                Utils.println(MsgType.SUCCESS, "" + hero.getName() + " used the " + potion.getName() + ". Effected attributes: \nStrength: " + hero.getStrength() + "\n" +
                         "Agility: " + hero.getAgility() + "\nHealth: " + hero.getCurrentHitPoints() + "\nMana: " + hero.getCurrentMagicPoints() + "\n" +
                         "Dexterity: " + hero.getDexterity());
             }
@@ -45,7 +45,7 @@ public class BattleDriver {
             hero.getItemInventory().get(ItemType.POTION).remove(selectedPotion);
             return true;
         } else {
-            System.out.println("Uh oh! The Hero is out of potions!! Please buy some from the market to try again!!");
+            Utils.println(MsgType.WARNING, "Uh oh! The Hero is out of potions!! Please buy some from the market to try again!!");
             return false;
         }
     }
@@ -55,20 +55,20 @@ public class BattleDriver {
         // return 0 if the spell is casted and the monster is not killed
         // return 1 if the spell is casted and the monster is killed
         if (hero.getItemInventory().get(ItemType.SPELL).size() != 0) {
-            System.out.println("Here are the list of spell which your hero has : ");
+            Utils.println(MsgType.INFO, "Here are the list of spell which your hero has : ");
             Utils.displaySpells(hero.getItemInventory().get(ItemType.SPELL));
             System.out.print("\n Please choose a spell which you would like to use (Please note that they are exhaustible : )");
             int selectedSpell = Integer.parseInt(Utils.input.readLine()) - 1;
 
             if (selectedSpell < 0 || selectedSpell >= hero.getItemInventory().get(ItemType.SPELL).size()) {
-                System.out.println("Please choose a valid option!!");
+                Utils.println(MsgType.WARNING, "Please choose a valid option!!");
                 return -1;
             }
 
             Spell spell = ((Spell) (hero.getItemInventory().get(ItemType.SPELL).get(selectedSpell)));
 
             if (spell.getMpCost() > hero.getCurrentMagicPoints()) {
-                System.out.println("You do not have enough Mana to use this spell!");
+                Utils.println(MsgType.WARNING, "Uh oh! The Hero does not have enough mana to cast the spell!! Please try again!!");
                 return -1;
             }
 
@@ -76,26 +76,26 @@ public class BattleDriver {
             // if the hero is on the bush, the hero dexterity is increased by 10%
             if (((ValorCell) hero.getCurrentCell()).getCellType() == CellSpace.BUSH) {
                 spellDamage = (int) (spellDamage + hero.getDexterity() / 10000 * spell.getDamage() * 1.1);
-                System.out.println(TextColors.YELLOW + "The hero is on the bush, the hero dexterity is increased by 10%!");
+                Utils.println(MsgType.INFO + "The hero is on the bush, the hero dexterity is increased by 10%!");
             }
             monster.setCurrentHitPoints(monster.getCurrentHitPoints() - spell.getDamage());
 
             if (spell.getSpellType() == SpellType.FIRE) {
                 monster.setDefense((int) (Math.floor(monster.getDefense() * 0.9)));
-                System.out.println("" + hero.getName() + " used " + spell.getName() + " spell on " + monster.getName() + "\nDecreasing the defense to " + monster.getDefense());
+                Utils.println(MsgType.SUCCESS, "" + hero.getName() + " used " + spell.getName() + " spell on " + monster.getName() + "\nDecreasing the defense to " + monster.getDefense());
             } else if (spell.getSpellType() == SpellType.ICE) {
                 monster.setBaseDamage((int) (Math.floor(monster.getBaseDamage() * 0.9)));
-                System.out.println("" + hero.getName() + " used " + spell.getName() + " spell on " + monster.getName() + "\nDecreasing the Base Damage to " + monster.getDefense());
+                Utils.println(MsgType.SUCCESS, "" + hero.getName() + " used " + spell.getName() + " spell on " + monster.getName() + "\nDecreasing the Base Damage to " + monster.getDefense());
             } else {
                 monster.setDodge((int) (Math.floor(monster.getDodge() * 0.9)));
-                System.out.println("" + hero.getName() + " used " + spell.getName() + " spell on " + monster.getName() + "\nDecreasing the Dodge to " + monster.getDefense());
+                Utils.println(MsgType.SUCCESS, "" + hero.getName() + " used " + spell.getName() + " spell on " + monster.getName() + "\nDecreasing the Dodge to " + monster.getDefense());
             }
             hero.setCurrentMagicPoints(hero.getCurrentMagicPoints() - spell.getMpCost());
 
             hero.getItemInventory().get(ItemType.SPELL).remove(selectedSpell);
 
             if (monster.getCurrentHitPoints() == 0) {
-                System.out.println("" + monster.getName() + " died!! Congratulations!");
+                Utils.println(MsgType.INFO, "" + monster.getName() + " died!! Congratulations!");
                 return 1;
             }
 
@@ -109,9 +109,9 @@ public class BattleDriver {
     public static boolean equipWeaponArmor(ValorHero hero, ItemType itemType) throws IOException {
         Item equipItem;
         if (hero.isItemEquipped(itemType)) {
-            System.out.println("Your hero already has a " + itemType + " equipped, would you like to replace it? (No - N/Yes - any key)");
+            Utils.println(MsgType.INFO, "Your hero already has a " + itemType + " equipped, would you like to replace it? (No - N/Yes - any key)");
             if ((Utils.input.readLine()).equalsIgnoreCase("N")) {
-                System.out.println("That sounds great!! Teleporting you back to the market :D");
+//                System.out.println("That sounds great!! Teleporting you back to the market :D");
                 return false;
             }
             equipItem = hero.getItemEquipped(itemType);
@@ -119,10 +119,10 @@ public class BattleDriver {
             hero.removeItemEquipped(itemType);
         }
         if (hero.getItemInventory().get(itemType).size() == 0) {
-            System.out.println("Uh oh! The Hero is out of " + itemType + "!! Please buy some from the market to try again!!");
+            Utils.println(MsgType.WARNING, "Uh oh! The Hero is out of " + itemType + "!! Please buy some from the market to try again!!");
             return false;
         }
-        System.out.println("Here are the list of " + itemType + " which are there in the hero's inventory");
+        Utils.println(MsgType.INFO, "Here are the list of " + itemType + " which are there in the hero's inventory");
         if (itemType == ItemType.ARMOR) {
             Utils.displayArmors(hero.getItemInventory().get(itemType));
         } else {
@@ -132,7 +132,7 @@ public class BattleDriver {
         int selectedItem = Integer.parseInt(Utils.input.readLine()) - 1;
 
         if (selectedItem < 0 || selectedItem >= hero.getItemInventory().get(itemType).size()) {
-            System.out.println("Please choose a valid option!!");
+            Utils.println(MsgType.WARNING, "Please choose a valid option!!");
             return false;
         }
 
@@ -140,7 +140,7 @@ public class BattleDriver {
         hero.setItemsEquipped(itemType, equipItem);
         hero.getItemInventory().get(itemType).remove(selectedItem);
 
-        System.out.println("" + hero.getName() + " is equipped with " + itemType + " " + equipItem.getName());
+        Utils.println(MsgType.SUCCESS, "" + hero.getName() + " is equipped with " + itemType + " " + equipItem.getName());
         return true;
     }
 

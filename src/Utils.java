@@ -13,6 +13,38 @@ public class Utils {
         randomNumber = new Random();
     }
 
+    public static void clearScreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+
+    public static void print(String message) {
+        System.out.print(message);
+    }
+
+    public static void println(String message) {
+        System.out.println(message);
+    }
+    public static void println(MsgType type, String message) {
+        switch (type) {
+            case INFO:
+                System.out.println(TextColors.BLUE + "[INFO] " + TextColors.RESET +message);
+                break;
+            case SUCCESS:
+                System.out.println(TextColors.GREEN + "[SUCCESS] " + TextColors.RESET +message);
+                break;
+            case WARNING:
+                System.out.println(TextColors.YELLOW + "[WARNING] " + TextColors.RESET +message);
+                break;
+            case ERROR:
+                System.out.println(TextColors.RED + "[ERROR] " + TextColors.RESET +message);
+                break;
+            case DEFAULT:
+                System.out.println(message);
+                break;
+        }
+    }
+
     public static void displayWeapons(ArrayList<Item> weaponList) {
         ValorDriver.printChar(TextColors.WHITE, '-', 102);
         System.out.println();
@@ -67,5 +99,14 @@ public class Utils {
         }
         ValorDriver.printChar(TextColors.WHITE, '-', 122);
         System.out.println();
+    }
+
+    public static void main(String[] args) {
+        // Test print msg
+        println(MsgType.INFO, "This is an info message");
+        println(MsgType.SUCCESS, "This is a success message");
+        println(MsgType.WARNING, "This is a warning message");
+        println(MsgType.ERROR, "This is an error message");
+        println(MsgType.DEFAULT, "This is a default message");
     }
 }
