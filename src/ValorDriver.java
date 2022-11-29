@@ -371,7 +371,7 @@ public class ValorDriver {
         }
     }
 
-    private static boolean handleAttack(ValorHero hero) throws IOException {
+    private static boolean handleAttack(ValorHero hero) throws Exception {
         // Check if any Monsters are in range
         List<Pawn> monstersInRange = findTargetsInRange(hero);
         if (monstersInRange.size() > 0) {
@@ -379,6 +379,11 @@ public class ValorDriver {
             Utils.println(MsgType.INFO, "Which monster would you like to attack?");
             int monsterNumber = chooseTarget(monstersInRange);
             if (monsterNumber >= 0 && monsterNumber < monstersInRange.size()) {
+                File soundFile = new File("" + System.getProperty("user.dir") + "/src/sounds/" + "battle.wav");
+                Clip clip = AudioSystem.getClip();
+                AudioInputStream ais = AudioSystem.getAudioInputStream(soundFile);
+                clip.open(ais);
+                clip.start();
                 // Attack the monster
                 ValorMonster monster = (ValorMonster) monstersInRange.get(monsterNumber);
                 if (BattleDriver.attackOfHero(hero, monster)) {

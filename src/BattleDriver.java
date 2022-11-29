@@ -1,3 +1,7 @@
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import java.io.File;
 import java.io.IOException;
 
 public class BattleDriver {
@@ -179,7 +183,7 @@ public class BattleDriver {
         System.out.println();
     }
 
-    public static boolean attackOfHero(ValorHero hero, ValorMonster monster) {
+    public static boolean attackOfHero(ValorHero hero, ValorMonster monster) throws Exception {
         if (!chancesOfDodge(monster.getDodge())) {
             int attackDamage = 0;
             int strength = hero.getStrength();
@@ -196,6 +200,11 @@ public class BattleDriver {
             System.out.println("" + hero.getName() + " successfully attacked " + monster.getName() + " for " + attackDamage + "HP!");
 
             if (monster.getCurrentHitPoints() <= attackDamage) {
+                File soundFile = new File("" + System.getProperty("user.dir") + "/src/sounds/" + "monster.wav");
+                Clip clip = AudioSystem.getClip();
+                AudioInputStream ais = AudioSystem.getAudioInputStream(soundFile);
+                clip.open(ais);
+                clip.start();
                 System.out.println("" + monster.getName() + " died!! Congratulations!");
                 monster.setCurrentHitPoints(monster.getMaxHitPoints());
                 System.out.println();
