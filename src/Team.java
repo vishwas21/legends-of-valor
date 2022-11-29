@@ -52,10 +52,8 @@ public class Team {
         this.pawnList.add(newTeamItem);
     }
 
-    public Pawn removePawn(Pawn newTeamItem) {
+    public void removePawn(Pawn newTeamItem) {
         this.pawnList.remove(newTeamItem);
-        this.teamSize--;
-        return newTeamItem;
     }
 
     public ArrayList<Pawn> getPawnList() {
@@ -93,7 +91,7 @@ public class Team {
             ValorDriver.printChar(TextColors.WHITE, '-', 116);
             System.out.println();
         }
-        for (int index = 0; index < team.getTeamSize(); index++) {
+        for (int index = 0; index < team.getPawnList().size(); index++) {
             pawn = team.getPawnAtIndex(index);
             if (teamType.equalsIgnoreCase("Heroes")) {
                 if (!((ValorHero) pawn).getDidFaint()) {
