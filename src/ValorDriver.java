@@ -273,6 +273,12 @@ public class ValorDriver {
 
         do {
 
+            File soundFile = new File("" + System.getProperty("user.dir") + "/src/sounds/" + "Akatsuki.wav");
+            Clip clip = AudioSystem.getClip();
+            AudioInputStream ais = AudioSystem.getAudioInputStream(soundFile);
+            clip.open(ais);
+            clip.start();
+
             try {
                 printChar(TextColors.CYAN, '*', 60);
                 System.out.print(TextColors.BLUE + " Legends: " + TextColors.PURPLE + "Heroes " + TextColors.GREEN + "and " + TextColors.RED + "Monsters " + TextColors.RESET + "");
