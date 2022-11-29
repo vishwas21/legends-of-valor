@@ -298,12 +298,9 @@ public class ValorDriver {
                 buildHeroTeam(teamHero);
                 initTeamMonster();
                 teamMonster.setTeamSize(0);
-                buildMonsterTeam(teamMonster, teamHero);
 
                 System.out.println("This is the team of Heroes : ");
                 Team.displayTeam(teamHero, "heroes");
-                System.out.println("\n\n Below are the team of Monsters :");
-                Team.displayTeam(teamMonster, "monsters");
 
                 System.out.println("Hit Enter to continue :)");
                 Utils.input.readLine();
@@ -320,6 +317,11 @@ public class ValorDriver {
 
                 while (true) {
                     System.out.println("Round " + currentRound + " :");
+                    if (currentRound == 1 || currentRound % 8 == 0) {
+                        buildMonsterTeam(teamMonster, teamHero);
+                        System.out.println("\n\n Below are the team of Monsters :");
+                        Team.displayTeam(teamMonster, "monsters");
+                    }
                     String playedMove;
                     // Each not fainted hero gets to play a move
                     for (Pawn pawn : teamHero.getPawnList()) {
@@ -327,8 +329,9 @@ public class ValorDriver {
                             continue;
                         }
                         ValorHero hero = (ValorHero) pawn;
-                        System.out.println("It is " + hero.getName() + "'s turn to play a move!");
                         vLayout.displayLayout();
+
+                        System.out.println("\n\nIt is " + hero.getSymbol() + ": " + hero.getName() + "'s turn to play a move!");
                         System.out.println("Current Position : " + ((ValorCell) hero.getCurrentCell()).getLaneNumber()
                                 + " " + ((ValorCell) hero.getCurrentCell()).getLaneIndexX()
                                 + " " + ((ValorCell) hero.getCurrentCell()).getLaneIndexY());
@@ -540,7 +543,7 @@ public class ValorDriver {
                                     }
                                 } else if (playedMove.equalsIgnoreCase("M") && ((ValorCell) hero.getCurrentCell()).getCellType() == CellSpace.HERONEXUS) {
                                     // Market
-                                    MarketDriver.enterMarket();
+                                    MarketDriver.enterMarket(hero);
                                 } else if (playedMove.equalsIgnoreCase("Q")) {
                                     System.out.println("You have quit the game! Thank you for playing!");
                                     System.exit(0);

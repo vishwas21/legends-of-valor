@@ -12,6 +12,8 @@ public class MarketDriver {
 
     private static Integer customerHero;
 
+    private static ValorHero selectedHero;
+
     public static void weaponDriver() throws IOException {
 
         // TODO: Check item level before allowing to buy
@@ -157,7 +159,7 @@ public class MarketDriver {
         }
     }
 
-    public static void enterMarket() throws IOException {
+    public static void enterMarket(Pawn hero) throws IOException {
         while (true) {
             ValorDriver.printChar(TextColors.PURPLE, '*', 160);
             System.out.println();
@@ -165,12 +167,8 @@ public class MarketDriver {
             Team.displayTeam(ValorDriver.getTeamHero(), "Heroes");
 
             try {
-                System.out.print("Please choose the hero who you want to buy/sell the items : ");
-                customerHero = Integer.parseInt(Utils.input.readLine()) - 1;
+                customerHero = Integer.parseInt(Character.toString(hero.getSymbol().charAt(1)));
 
-                if (customerHero < 0 || customerHero >= ValorDriver.getTeamHero().getTeamSize()) {
-                    throw new IllegalStateException("Invalid hero choice");
-                }
                 System.out.println();
                 System.out.println("Please choose one of the below options: \n1. Buy Items\n2. Sell Items");
                 int marketChoice = Integer.parseInt(Utils.input.readLine());
