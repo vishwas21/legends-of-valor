@@ -1,5 +1,5 @@
 /**
- * LegendsLayout Class: The LegendsLayout class implements the Layout Interface and has Legends specific functionality.
+ * ValorLayout Class: The LegendsLayout class implements the Layout Interface and has Legends specific functionality.
  * This class instantiates the layout and also add the inaccessible and market sport for the legends game layout
  */
 

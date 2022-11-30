@@ -1,5 +1,5 @@
 /**
- * LegendsNPC Class: This class is inherited from the legends game which creates the non-playable character for the valor game.
+ * ValorNPC Class: This class is inherited from the legends game which creates the non-playable character for the valor game.
  *                  This would be inherited by the individual valor hero and monster class
  */
 

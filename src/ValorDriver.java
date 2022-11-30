@@ -572,7 +572,7 @@ public class ValorDriver {
 
                 currentRound = 1;
 
-                while (true) {
+                mainLoop: while (true) {
                     Utils.println(MsgType.INFO, "Round " + currentRound + " :");
                     if (currentRound == 1 || currentRound % 8 == 0) {
                         buildMonsterTeam(teamMonster, teamHero);
@@ -661,7 +661,7 @@ public class ValorDriver {
                                     MarketDriver.enterMarket(hero); // Entering the market won't end the turn
                                 } else if (playedMove.equalsIgnoreCase("Q")) {
                                     Utils.println(MsgType.INFO, "You have quit the game! Thank you for playing!");
-                                    System.exit(0);
+                                    break mainLoop;
                                 } else {
                                     throw new Exception("Invalid Input! Please try again!");
                                 }
