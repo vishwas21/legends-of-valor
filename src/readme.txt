@@ -4,9 +4,22 @@ ASSIGNMENT 4 - LEGENDS OF VALOR
 
 Submitted by:
 VISHWAS BHAKTAVATSALA - U74206902
-RUI WEI - U
+RUI WEI - U02377614
 -------------------------------------------------------------------------------------------------------------------------------------------------------------
-<Please add the analysis for both our older projects>
+
+Analysis of the two infrastructures:
++--------------------------------------------------------------------------------------------------------------------------------+
+|                   | Bulletpoints                        | Design to keep?     | Design to modify?                              |
+| ----------------- | ----------------------------------- | ------------------- | ---------------------------------------------- |
+| Vishwas's Version | - Including audio function          | All other classes   | - Cell (more types, more effects)              |
+|                   | - Clearer design                    |                     | - Board display (three lanes)                  |
+|                   | - Factory pattern                   |                     | - Battle part (transform into on-board battle) |
+|                   | - Cell color included               |                     |                                                |
+| ----------------- | ----------------------------------- | ------------------- | ---------------------------------------------- |
+| Ricky's Version   | - Modified rules                    | Multiple msg types  | - Cell (more types, more effects)              |
+|                   | - Equipment slot                    |                     | - Rules (static methods to modify)             |
+|                   |                                     |                     | - Equipment slot (not necessary)               |
++--------------------------------------------------------------------------------------------------------------------------------+
 
 We decided to incorporate the base structure from Vishwas's project as it had individual classes for basic unit functionalities.
 The board has each unit as a cell class and each cell object had various other attributes which helps to run the game better.

@@ -205,6 +205,22 @@ public class ValorDriver {
         ((ValorCell) vLayout.getCell(laneNumber, positionX, 1)).setDiscovered(true);
     }
 
+    private static void displayRules(){
+        Utils.println(MsgType.INFO,"Welcome to Valor!!\n");
+        Utils.println(MsgType.INFO,"Valor is a turn based game where you have to reach the enemy nexus to win the game.\n");
+        Utils.println(MsgType.INFO,"1. You can move your hero in the same lane using W/S/A/D.");
+        Utils.println(MsgType.INFO,"2. Every cell can only have one hero. You cannot cross the monsters in the same lane.");
+        Utils.println(MsgType.INFO,"3. You can teleport your hero to the adjacent cell of another hero.");
+        Utils.println(MsgType.INFO,"4. You can attack the enemy in the cells around you.");
+        Utils.println(MsgType.INFO,"5. You can cast your spells to attack the enemy in the cells around you.");
+        Utils.println(MsgType.INFO,"6. You can use your items to strengthen yourself.");
+        Utils.println(MsgType.INFO,"7. You can equip your items to strengthen yourself.");
+        Utils.println(MsgType.INFO,"8. You can buy items from the market in the nexus.");
+        Utils.println(MsgType.INFO,"9. Entering the market won't end your turn.");
+        Utils.println(MsgType.INFO,"10. Every fainted hero will be revived in the nexus at the next round.");
+        Utils.println(MsgType.INFO,"11. If the monsters reach the hero nexus, the game is over.");
+    }
+
     private static List<Pawn> findTargetsInRange(Pawn pawn) {
         List<Pawn> targetsInRange = new ArrayList<>();
         // find the pawns that are different type and in range
@@ -429,9 +445,7 @@ public class ValorDriver {
                         BattleDriver.checkHeroLevelUp(uf_hero);
                     }
                 }
-            } else if (result < 0) {
-                return false;
-            }
+            } else return result >= 0;
             return true;
         } else {
             Utils.println(MsgType.WARNING, "Invalid choice!");
@@ -454,17 +468,9 @@ public class ValorDriver {
         System.out.println("2 - Armor");
         int itemType = Integer.parseInt(Utils.input.readLine());
         if (itemType == 1) {
-            if (BattleDriver.equipWeaponArmor(hero, ItemType.WEAPON)) {
-                return true;
-            } else {
-                return false;
-            }
+            return BattleDriver.equipWeaponArmor(hero, ItemType.WEAPON);
         } else if (itemType == 2) {
-            if (BattleDriver.equipWeaponArmor(hero, ItemType.ARMOR)) {
-                return true;
-            } else {
-                return false;
-            }
+            return BattleDriver.equipWeaponArmor(hero, ItemType.ARMOR);
         } else {
             Utils.println(MsgType.WARNING, "Invalid choice!");
             return false;
@@ -537,7 +543,8 @@ public class ValorDriver {
                 printChar(TextColors.CYAN, '*', 60);
                 System.out.println();
 
-                // TODO: Add the required print statements
+                // Add the required print statements
+                displayRules();
 
                 generateConstants();
 
