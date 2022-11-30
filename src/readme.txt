@@ -3,8 +3,8 @@ GRS CS 611 - Object-Oriented Design and Software Principles using JAVA
 ASSIGNMENT 4 - LEGENDS OF VALOR
 
 Submitted by:
-VISHWAS BHAKTAVATSALA - U74206902
-RUI WEI - U02377614
+VISHWAS BHAKTAVATSALA - vishwasb@bu.edu - U74206902
+RUI WEI - rickwei@bu.edu - U02377614
 -------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Analysis of the two infrastructures:
