@@ -175,7 +175,12 @@ public class MarketDriver {
                 if (marketChoice != 1 && marketChoice != 2 && marketChoice != 3) {
                     throw new IllegalStateException("Invalid choice!! \nYou and either buy or sell!! Please retry!");
                 }
-                if (marketChoice == 3) return false;
+                if (marketChoice == 3) {
+                    System.out.println("Hope you enjoyed shopping!! Bye :)");
+                    System.out.println("Please press enter to continue!");
+                    Utils.input.readLine();
+                    return false;
+                }
                 System.out.println("\n\n1. Weapons\n2. Armors\n3. Potions\n4. Spells");
                 Utils.println(MsgType.INFO, "Please enter the number of the item which you would like to buy: ");
                 int choice = Integer.parseInt(Utils.input.readLine());

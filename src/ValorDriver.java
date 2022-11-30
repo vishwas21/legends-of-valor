@@ -593,25 +593,26 @@ public class ValorDriver {
                             continue;
                         }
                         ValorHero hero = (ValorHero) pawn;
-                        vLayout.displayLayout();
-                        Utils.println("");
-                        Utils.println(MsgType.INFO, "It is " + hero.getSymbol() + ": " + hero.getName() + "'s turn to play a move!");
-                        System.out.println("Current Position : " + ((ValorCell) hero.getCurrentCell()).getLaneNumber()
-                                + " " + ((ValorCell) hero.getCurrentCell()).getLaneIndexX()
-                                + " " + ((ValorCell) hero.getCurrentCell()).getLaneIndexY());
-                        Utils.println(MsgType.INFO, "Following are the rules for movements in the game!! Please press the right button to play the game!");
-                        System.out.println("W/S/A/D - Move Up/Down/Left/Right");
-                        System.out.println("E - Equip Item");
-                        System.out.println("F - Attack");
-                        System.out.println("G - Use Potion");
-                        System.out.println("H - Use Spell");
-                        System.out.println("R - Recall");
-                        System.out.println("T - Teleport");
-                        if (((ValorCell) hero.getCurrentCell()).getCellType() == CellSpace.HERONEXUS) {
-                            System.out.println("M - Market");
-                        }
-                        System.out.println("Q - Quit Game");
                         while (true) {
+                            vLayout.displayLayout();
+                            Utils.println("");
+                            Utils.println(MsgType.INFO, "It is " + hero.getSymbol() + ": " + hero.getName() + "'s turn to play a move!");
+                            System.out.println("Current Position : " + ((ValorCell) hero.getCurrentCell()).getLaneNumber()
+                                    + " " + ((ValorCell) hero.getCurrentCell()).getLaneIndexX()
+                                    + " " + ((ValorCell) hero.getCurrentCell()).getLaneIndexY());
+                            Utils.println(MsgType.INFO, "Following are the rules for movements in the game!! Please press the right button to play the game!");
+                            System.out.println("W/S/A/D - Move Up/Down/Left/Right");
+                            System.out.println("E - Equip Item");
+                            System.out.println("F - Attack");
+                            System.out.println("G - Use Potion");
+                            System.out.println("H - Use Spell");
+                            System.out.println("R - Recall");
+                            System.out.println("T - Teleport");
+                            if (((ValorCell) hero.getCurrentCell()).getCellType() == CellSpace.HERONEXUS) {
+                                System.out.println("M - Market");
+                            }
+                            System.out.println("Q - Quit Game");
+
                             try {
                                 System.out.print("What would you like to do? ");
                                 playedMove = Utils.input.readLine();
