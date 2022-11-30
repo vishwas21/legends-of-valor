@@ -1,9 +1,5 @@
 /**
  * Pawn Class: This class represents the basic pawn and the characteristics which is required for it.
- *
- * @author Vishwas B
- * @version 1.0.0
- * @since November 20, 2022
  */
 
 public abstract class Pawn {

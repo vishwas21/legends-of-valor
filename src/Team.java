@@ -1,12 +1,8 @@
-import java.util.ArrayList;
-
 /**
- * Team Class: This class is used to create a team of pawns which would be required for the game.
- *
- * @author Vishwas B
- * @version 1.0.0
- * @since November 20, 2022
+ * Team Class: This class is used to create a team of pawns which would be required for the game, the functionalities required for each team and attributes.
  */
+
+import java.util.ArrayList;
 
 public class Team {
 

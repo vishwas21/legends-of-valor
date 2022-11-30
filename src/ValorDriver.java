@@ -1,20 +1,13 @@
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
+/**
+ * ValorDriver Class: This is the driver class for the Legends of Valor game. The Starting point for everything in this game.
+ */
+
+import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.List;
-
-/**
- * Valor Class: This is the driver class for the Legends of Valor game. The Starting point for everything in this game.
- *
- * @author Vishwas B
- * @version 1.0.0
- * @since November 26, 2022
- */
 
 public class ValorDriver {
 

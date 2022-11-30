@@ -1,9 +1,5 @@
 /**
- * Item Factory : Design pattern to create items.
- *
- * @author Vishwas B
- * @version 1.0.0
- * @since November 26, 2022
+ * Item Factory : Factory Design pattern to create items. This class has the functions required to weapons, Armors, Potions and Spells.
  */
 public class ItemFactory {
 

@@ -1,3 +1,7 @@
+/**
+ * ItemGenerator Class: This class is used as a driver to run the Item Factory Pattern. It creates all the items from the path and returns the objects in the form of a list.
+ */
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;

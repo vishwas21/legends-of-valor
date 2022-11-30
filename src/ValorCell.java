@@ -1,9 +1,5 @@
 /**
  * ValorCell Class: This class inherits all the features of the Cell Super class and also store the type of the cell which is required for valor game
- *
- * @author Vishwas B
- * @version 1.0.0
- * @since November 20, 2022
  */
 
 public class ValorCell extends Cell {

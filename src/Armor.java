@@ -1,5 +1,5 @@
 /**
- * Armor class consists of  functionalities with respect to armors usage in the game
+ * Armor class consists of functionalities with respect to armors, it's getters and setters usage in the game
  */
 public class Armor extends Item {
 

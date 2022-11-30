@@ -1,11 +1,6 @@
 /**
- * ValorHero Class: This class depicts the hero character in the valor game and all the attribute for the hero character
- *
- * @author Vishwas B
- * @version 1.0.0
- * @since November 26, 2022
+ * ValorHero Class: This class depicts the hero character in the valor game and all the attribute for the hero character.
  */
-
 
 import java.util.ArrayList;
 import java.util.HashMap;

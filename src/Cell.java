@@ -1,9 +1,5 @@
 /**
- * Cell Class: This class depicts the basic unit in all of the board or layout based games. It helps store the position and piece/character/pawn in the cell.
- *
- * @author Vishwas B
- * @version 1.0.0
- * @since November 20, 2022
+ * Cell Class: This class depicts the basic unit in all the board or layout based games. It helps store the position and piece/character/pawn in the cell.
  */
 
 public class Cell {

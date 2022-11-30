@@ -1,3 +1,6 @@
+/**
+ * Spell Class: This class consists of functionalities with respect to spells and the required attributes
+ */
 public class Spell extends Item {
 
     private Integer damage;

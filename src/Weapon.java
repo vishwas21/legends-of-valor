@@ -1,3 +1,7 @@
+/**
+ * Weapon Class: This class consists of functionalities with respect to weapons and its required attributes.
+ */
+
 public class Weapon extends Item {
 
     private Integer damage;

@@ -1,10 +1,6 @@
 /**
  * LegendsLayout Class: The LegendsLayout class implements the Layout Interface and has Legends specific functionality.
  * This class instantiates the layout and also add the inaccessible and market sport for the legends game layout
- *
- * @author Vishwas B
- * @version 1.0.0
- * @since November 20, 2022
  */
 
 

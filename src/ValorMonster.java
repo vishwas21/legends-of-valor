@@ -1,3 +1,7 @@
+/**
+ * ValorMonster Class: This class depicts the monster character in the valor game and all the attributes for the monster character.
+ */
+
 public class ValorMonster extends ValorNPC {
 
     private Integer baseDamage;

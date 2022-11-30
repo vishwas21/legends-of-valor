@@ -1,3 +1,7 @@
+/**
+ * Utils Class: This is a general utility class which has the common functionalities required all over the game.
+ */
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;

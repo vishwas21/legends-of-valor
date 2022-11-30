@@ -1,9 +1,5 @@
 /**
- * Item Abstract Class: This class holds the default details of all the items and its functionality.
- *
- * @author Vishwas B
- * @version 1.0.0
- * @since November 26, 2022
+ * Item Abstract Class: This class holds the default details of all the items and its functionality. This is an abstract which can be extended by other games as well.
  */
 
 public abstract class Item {

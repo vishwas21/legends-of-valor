@@ -1,6 +1,8 @@
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
+/**
+ * BattleDriver Class: This class has all the functions required for the battle to run, funstions to use the potions, spells and attack features as well.
+ */
+
+import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
 

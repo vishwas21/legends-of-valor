@@ -1,5 +1,5 @@
 /**
- * Potion class consists of  functionalities with respect to armors usage in the game
+ * Potion Class: This class consists of functionalities with respect to potions and the required attributes
  */
 public class Potion extends Item {
 

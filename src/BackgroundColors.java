@@ -1,3 +1,7 @@
+/**
+ * BackgroundColors Class: This class stores the static variables for the background colors which are used in the board.
+ * Please Note: This hardcoded colors has been picked up from the internet.
+ */
 public class BackgroundColors {
 
     public static final String RESET = "\033[0m";

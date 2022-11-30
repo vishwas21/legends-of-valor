@@ -1,11 +1,7 @@
 import java.io.IOException;
 
 /**
- * Market Driver: This is the driver class for the whole market in the game and has the functionalities to buy items from the market.
- *
- * @author Vishwas B
- * @version 1.0.0
- * @since November 5, 2022
+ * Market Driver: This is the driver class for the whole market in the game and has the functionalities to buy and sell items from the market.
  */
 
 public class MarketDriver {

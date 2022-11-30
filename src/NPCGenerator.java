@@ -1,3 +1,7 @@
+/**
+ * NPCGenerator Class: This class has the functionality to create the heroes and monsters based on the files which is present in the path.
+ */
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;

@@ -1,3 +1,6 @@
+/**
+ * NPCFactory Class: Design Pattern class used to produce Heroes and Monsters in the game.
+ */
 public class NPCFactory {
     public ValorNPC createObject(NPCType npcType) throws IllegalStateException {
         if (npcType == NPCType.HERO) {
