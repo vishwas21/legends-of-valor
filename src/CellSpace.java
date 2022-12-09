@@ -1,14 +1,11 @@
 /**
- * CellSpace Enum: This Enum stores the different type of cells which can be present in the Legends game and their respective Color and Symbol.
- *
- * @author Vishwas B
- * @version 1.0.0
- * @since November 20, 2022
+ * CellSpace Enum: This Enum stores the different type of cells which can be present in the Legends game and their respective Colors.
  */
 
 import java.util.HashMap;
 
 public enum CellSpace {
+    DEFAULT,
     INACCESSIBLE,
     HERONEXUS,
     MONSTERNEXUS,
@@ -30,10 +27,5 @@ public enum CellSpace {
         spaceColor.put(CellSpace.BUSH, BackgroundColors.GREEN);
         spaceColor.put(CellSpace.CAVE, BackgroundColors.YELLOW);
         spaceColor.put(CellSpace.KOULOU, BackgroundColors.PURPLE);
-
-//        spaceSymbol = new HashMap<>(3);
-//        spaceSymbol.put(CellSpace.INACCESSIBLE, "X");
-//        spaceSymbol.put(CellSpace.MARKET, "M");
-//        spaceSymbol.put(CellSpace.COMMON, " ");
     }
 }

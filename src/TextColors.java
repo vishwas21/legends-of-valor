@@ -1,3 +1,7 @@
+/**
+ * TextColors Class: This class stores the static variables for the text colors which are used in the board.
+ * Please Note: This hardcoded colors has been picked up from the internet.
+ */
 public class TextColors {
     public static final String RESET    = "\u001B[0m";
     public static final String BLACK    = "\u001B[30m";

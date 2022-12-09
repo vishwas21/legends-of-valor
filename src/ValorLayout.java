@@ -1,24 +1,17 @@
 /**
- * LegendsLayout Class: The LegendsLayout class implements the Layout Interface and has Legends specific functionality.
- *      This class instantiates the layout and also add the inaccessible and market sport for the legends game layout
- *
- * @author Vishwas B
- * @version 1.0.0
- * @since November 20, 2022
+ * ValorLayout Class: The LegendsLayout class implements the Layout Interface and has Legends specific functionality.
+ * This class instantiates the layout and also add the inaccessible and market sport for the legends game layout
  */
 
 
-import java.util.Random;
-
-public class ValorLayout implements Layout {
+public class ValorLayout implements VLayout {
 
     private Integer length;
     private Integer breadth;
+    private Integer plainCellPercent;
     private Integer caveCellPercent;
     private Integer bushCellPercent;
     private Integer koulouCellPercent;
-
-
     private Cell[][] gameLayout;
 
     public ValorLayout(Integer squareSide) {
@@ -31,6 +24,7 @@ public class ValorLayout implements Layout {
         this.setCaveCellPercent(25);
         this.setBushCellPercent(25);
         this.setKoulouCellPercent(25);
+        this.calculatePlainCellPercent();
     }
 
     @Override
@@ -67,13 +61,13 @@ public class ValorLayout implements Layout {
 
         int positionX = 0;
         int positionY = 0;
-        while(positionX < length) {
+        while (positionX < length) {
             positionY = 0;
             while (positionY < breadth) {
                 gameLayout[positionX][positionY] = new ValorCell(((positionX * breadth) + positionY + 1), positionX, positionY);
-                positionY ++;
+                positionY++;
             }
-            positionX ++;
+            positionX++;
         }
     }
 
@@ -83,6 +77,7 @@ public class ValorLayout implements Layout {
         this.setValorInaccessible();
         this.setHeroNexus();
         this.setMonsterNexus();
+        this.setPlainSpaces();
         this.setCaveSpaces();
         this.setBushSpaces();
         this.setKoulouSpaces();
@@ -94,54 +89,73 @@ public class ValorLayout implements Layout {
 
     @Override
     public Cell getCell(Integer positionX, Integer positionY) {
-        return this.getGameLayout()[positionX][positionY];
+        try {
+            return this.gameLayout[positionX][positionY];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return null;
+        }
     }
 
     public CellSpace getCellType(Integer positionX, Integer positionY) {
-        return ((ValorCell)this.getCell(positionX, positionY)).getCellType();
+        return ((ValorCell) this.getCell(positionX, positionY)).getCellType();
+    }
+
+    public Cell getCell(Integer laneNumber, Integer laneX, Integer laneY) {
+        return this.getCell(laneX, (laneY + (laneNumber * 3)));
     }
 
     public void setValorInaccessible() {
         for (int column = 2; column < this.breadth; column = column + 3) {
-            for(int row = 0; row < this.length; row ++) {
-                ((ValorCell)this.getCell(row, column)).setCellType(CellSpace.INACCESSIBLE);
+            for (int row = 0; row < this.length; row++) {
+                ((ValorCell) this.getCell(row, column)).setCellType(CellSpace.INACCESSIBLE);
             }
         }
     }
 
     public void setHeroNexus() {
-        for (int column = 0; column < this.breadth; column ++) {
+        for (int column = 0; column < this.breadth; column++) {
             if (this.getCellType(this.length - 1, column) != CellSpace.INACCESSIBLE) {
-                ((ValorCell)this.getCell(this.length - 1, column)).setCellType(CellSpace.HERONEXUS);
+                ((ValorCell) this.getCell(this.length - 1, column)).setCellType(CellSpace.HERONEXUS);
+                ((ValorCell) this.getCell(this.length - 1, column)).setDiscovered(true);
             }
         }
     }
 
     public void setMonsterNexus() {
-        for(int column = 0; column < this.breadth; column ++) {
+        for (int column = 0; column < this.breadth; column++) {
             if (this.getCellType(0, column) != CellSpace.INACCESSIBLE) {
-                ((ValorCell)this.getCell(0, column)).setCellType(CellSpace.MONSTERNEXUS);
+                ((ValorCell) this.getCell(0, column)).setCellType(CellSpace.MONSTERNEXUS);
             }
         }
+    }
+
+    public void setPlainSpaces() {
+        this.setSpaces(CellSpace.PLAIN, this.getPlainCellPercent());
     }
 
     public void setSpaces(CellSpace cellType, Integer percentage) {
 
         int cellIndex = 0, positionX = -1, positionY = -1;
         int lanePos = 0;
-        int numCells = ((6 * 2) * percentage ) / 100;
+        int numCells = ((6 * 2) * percentage) / 100;
+        int laneX = -1, laneY = -1;
         int temp = numCells;
 
-        for(int lane = 0; lane < 3; lane ++) {
+        for (int lane = 0; lane < 3; lane++) {
             temp = numCells;
             while (temp > 0) {
                 lanePos = Utils.randomNumber.nextInt(12);
-                positionY = (lanePos % 2) + (lane * 3);
+                laneY = (lanePos % 2);
+                positionY = laneY + (lane * 3);
                 lanePos = Utils.randomNumber.nextInt(6);
                 positionX = lanePos + 1;
+                laneX = positionX;
 
-                if (this.getCellType(positionX, positionY) == CellSpace.PLAIN) {
+                if (this.getCellType(positionX, positionY) == CellSpace.DEFAULT) {
                     ((ValorCell) this.getCell(positionX, positionY)).setCellType(cellType);
+                    ((ValorCell) this.getCell(positionX, positionY)).setLaneNumber(lane);
+                    ((ValorCell) this.getCell(positionX, positionY)).setLaneIndexX(laneX);
+                    ((ValorCell) this.getCell(positionX, positionY)).setLaneIndexY(laneY);
                     temp--;
                 }
             }
@@ -162,20 +176,32 @@ public class ValorLayout implements Layout {
 
     @Override
     public void displayLayout() {
-        for (int indexI = 0; indexI < length; indexI ++) {
-            for (int indexJ = 0; indexJ < breadth; indexJ ++) {
+        for (int indexI = 0; indexI < length; indexI++) {
+            for (int indexJ = 0; indexJ < breadth; indexJ++) {
                 System.out.print("+-----------------");
             }
             System.out.println("+");
-            for (int indexJ = 0; indexJ < breadth; indexJ ++) {
-                System.out.print("|" + CellSpace.spaceColor.get(this.getCellType(indexI, indexJ)) + "                 " + BackgroundColors.RESET);
-            }
-            System.out.println("|");
             for (int indexJ = 0; indexJ < breadth; indexJ++) {
                 System.out.print("|" + CellSpace.spaceColor.get(this.getCellType(indexI, indexJ)) + "                 " + BackgroundColors.RESET);
             }
             System.out.println("|");
-            for (int indexJ = 0; indexJ < breadth; indexJ ++) {
+            for (int indexJ = 0; indexJ < breadth; indexJ++) {
+                System.out.print("|" + CellSpace.spaceColor.get(this.getCellType(indexI, indexJ)) + "   ");
+                if (((ValorCell) this.getCell(indexI, indexJ)).isHeroPresent()) {
+                    System.out.print(((ValorCell) this.getCell(indexI, indexJ)).getHero().getSymbol());
+                } else {
+                    System.out.print("  ");
+                }
+                System.out.print("      ");
+                if (((ValorCell) this.getCell(indexI, indexJ)).isMonsterPresent()) {
+                    System.out.print(((ValorCell) this.getCell(indexI, indexJ)).getMonster().getSymbol());
+                } else {
+                    System.out.print("  ");
+                }
+                System.out.print("    " + BackgroundColors.RESET);
+            }
+            System.out.println("|");
+            for (int indexJ = 0; indexJ < breadth; indexJ++) {
                 System.out.print("|" + CellSpace.spaceColor.get(this.getCellType(indexI, indexJ)) + "                 " + BackgroundColors.RESET);
             }
             System.out.println("|");
@@ -194,7 +220,6 @@ public class ValorLayout implements Layout {
         System.out.println("" + CellSpace.spaceColor.get(CellSpace.KOULOU) + "   " + BackgroundColors.RESET + " - Koulou Spaces");
         System.out.println("" + TextColors.PURPLE + " H " + TextColors.RESET + " - Hero Team");
     }
-
 
     public Integer getCaveCellPercent() {
         return caveCellPercent;
@@ -230,5 +255,13 @@ public class ValorLayout implements Layout {
         }
 
         this.koulouCellPercent = koulouCellPercent;
+    }
+
+    public void calculatePlainCellPercent() {
+        this.plainCellPercent = 100 - (this.bushCellPercent + this.caveCellPercent + this.koulouCellPercent);
+    }
+
+    public Integer getPlainCellPercent() {
+        return this.plainCellPercent;
     }
 }

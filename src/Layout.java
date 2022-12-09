@@ -1,9 +1,5 @@
 /**
  * Layout Interface: The interface helps all the games create a layout and set a few rules which must be followed.
- *
- * @author Vishwas B
- * @version 1.0.0
- * @since November 20, 2022
  */
 
 public interface Layout {
